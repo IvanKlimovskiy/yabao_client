@@ -1,0 +1,52 @@
+.feedback {
+  width: 100%;
+  padding-top: 49px;
+}
+
+.feedback__heading {
+  color: #231f20;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.feedback__list {
+  display: flex;
+  gap: 46px;
+  list-style: none;
+  padding: 27px 0 0;
+  margin: 0;
+}
+
+.feedback__item {
+  width: 97px;
+  height: 98px;
+  flex-shrink: 0;
+  border-radius: 98px;
+  border: 4px solid #ff2e65;
+  overflow: hidden;
+}
+
+.feedback__image {
+  width: 100px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.feedback__image-description {
+  margin: 17px 0 0;
+  color: #9d9d9b;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.feedback__link {
+  color: inherit;
+  text-decoration: none;
+}
