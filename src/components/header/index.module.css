@@ -1,0 +1,86 @@
+@keyframes miniHeader {
+  0% {
+    opacity: 0;
+    top: -84px;
+  }
+
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+}
+
+.header {
+  padding-top: 8px;
+  width: 100%;
+  max-width: 1110px;
+}
+
+.header__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  font-weight: 600;
+  font-size: 18px;
+  width: 100%;
+  max-width: 232px;
+  text-align: center;
+}
+
+.header__wrapper-logo-and-info {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__wrapper-phone-and-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 422px;
+}
+
+.header__button-call {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 28px;
+  padding: 7px 27px;
+  color: #696f7a;
+  background-color: #f3f3f7;
+  border: none;
+  border-radius: 28px;
+  transition: 0.6s;
+}
+
+.header__button-call:hover {
+  color: #ff2e65;
+}
+
+.header__phone-number {
+  color: #ff2e65;
+  font-size: 26px;
+}
+
+.header_fixed {
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #fff;
+  z-index: 10;
+  position: fixed;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.1);
+  animation-name: miniHeader;
+  animation-duration: 0.3s;
+}
+
+.header_fixed .header__wrapper {
+  display: none;
+}

@@ -1,11 +1,11 @@
 .feedback {
   width: 100%;
-  padding-top: 49px;
+  padding-top: 50px;
 }
 
 .feedback__heading {
   color: #231f20;
-  font-family: Montserrat;
+  font-family: Montserrat, serif;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
@@ -14,6 +14,7 @@
 
 .feedback__list {
   display: flex;
+  justify-content: space-between;
   gap: 46px;
   list-style: none;
   padding: 27px 0 0;
@@ -25,8 +26,13 @@
   height: 98px;
   flex-shrink: 0;
   border-radius: 98px;
-  border: 4px solid #ff2e65;
+  border: 4px solid rgba(255, 46, 101, 0.7);
   overflow: hidden;
+  transition: 0.6s;
+}
+
+.feedback__item:hover {
+  border-color: #ff2e65;
 }
 
 .feedback__image {
@@ -37,9 +43,10 @@
 }
 
 .feedback__image-description {
+  text-align: center;
   margin: 17px 0 0;
   color: #9d9d9b;
-  font-family: Montserrat;
+  font-family: Montserrat, serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -49,4 +56,8 @@
 .feedback__link {
   color: inherit;
   text-decoration: none;
+}
+
+.feedback_slide:hover .feedback__item {
+  border: 4px solid #dd154a;
 }
