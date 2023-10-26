@@ -1,6 +1,6 @@
-import { BASE_URL } from "../constants";
-import { jsonData } from "../services/slices/menu/index.types";
-import { jsonDataUsers } from "../services/slices/users/index.types";
+import { BASE_URL } from "../constants/constants";
+import { jsonData } from "../services/slices/menu/menu.types";
+import { jsonDataUsers } from "../services/slices/users/users.types";
 
 async function checkResponse(
   response: Response[] | Response,

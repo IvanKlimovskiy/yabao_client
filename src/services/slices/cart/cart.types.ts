@@ -1,4 +1,4 @@
-import { MenuObject } from "../menu/index.types";
+import { MenuObject } from "../menu/menu.types";
 
 export interface CartState {
   addedToCart: MenuObject[];

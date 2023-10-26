@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchMenu } from "../../../utils";
-import { jsonData, MenuState } from "./index.types";
+import { fetchMenu } from "../../../utils/utils";
+import { jsonData, MenuState } from "./menu.types";
 
 export const getMenu = createAsyncThunk<jsonData[]>(
   "menu/fetchMenu",
@@ -8,9 +8,8 @@ export const getMenu = createAsyncThunk<jsonData[]>(
     const response = await fetchMenu();
     if (Array.isArray(response)) {
       return response;
-    } else {
-      throw new Error();
     }
+    throw new Error();
   },
 );
 
@@ -35,7 +34,6 @@ const menu = createSlice({
       getMenu.fulfilled,
       (state, action: PayloadAction<jsonData[]>) => {
         const fetchedData = action.payload;
-        console.log(fetchedData);
         state.menu = fetchedData.map(({ data }) => data);
         state.loading = false;
       },

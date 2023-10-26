@@ -1,19 +1,19 @@
-import styles from "./app.module.css";
-import Header from "../header";
-import Slider from "../slider";
-import Feedback from "../feedback";
-import NewProducts from "../new-products";
-import NewProductDetails from "../new-product-details";
-import Menu from "../menu";
 import { useEffect, useState } from "react";
+import styles from "./app.module.css";
+import Header from "../header/header.tsx";
+import Slider from "../slider/slider.tsx";
+import Feedback from "../feedback/feedback.tsx";
+import NewProducts from "../new-products/new-products.tsx";
+import NewProductDetails from "../new-product-details/new-product-details.tsx";
+import Menu from "../menu/menu.tsx";
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../services/store/index.types";
-import { getMenu } from "../../services/slices/menu";
-import { getUsers } from "../../services/slices/users";
-import Spinner from "../../spinner";
-import ErrorPage from "../pages/error-page";
+} from "../../services/store/store.types";
+import { getMenu } from "../../services/slices/menu/menu";
+import { getUsers } from "../../services/slices/users/users";
+import Spinner from "../../spinner/spinner.tsx";
+import ErrorPage from "../pages/error-page/error-page.tsx";
 
 const App = () => {
   const { loading, error } = useAppSelector((state) => state.menu);
@@ -23,6 +23,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getMenu());
     dispatch(getUsers());
+
     const handleScroll = () => {
       if (window.scrollY < 98) {
         setIsFixedHeader(false);
@@ -38,14 +39,15 @@ const App = () => {
     };
   }, []);
 
-  return loading ? (
-    <Spinner height={"100vh"} />
-  ) : error ? (
-    <ErrorPage />
-  ) : (
-    <div className={styles["page"]}>
+  if (loading) {
+    return <Spinner height={"100vh"} />;
+  }
+  if (error) return <ErrorPage />;
+
+  return (
+    <div className={styles.page}>
       <Header isFixedHeader={isFixedHeader} />
-      <main className={styles["main"]}>
+      <main className={styles.main}>
         <Slider isFixedHeader={isFixedHeader} />
         <Feedback />
         <NewProducts />

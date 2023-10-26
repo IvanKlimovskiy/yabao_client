@@ -3,10 +3,9 @@ import Modal from "react-bootstrap/Modal";
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../services/store/index.types";
-import { close, removeModalDetails } from "../../services/slices/modal";
-import styles from "./index.module.css";
-import React from "react";
+} from "../../services/store/store.types";
+import { close, removeModalDetails } from "../../services/slices/modal/modal";
+import styles from "./new-product-details.module.css";
 
 const NewProductDetails = () => {
   const dispatch = useAppDispatch();
@@ -29,23 +28,16 @@ const NewProductDetails = () => {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            <h3 className={styles["new-product-details__heading"]}>
-              {modalDetails.name}
-            </h3>
+            <h3 className={styles.title}>{modalDetails.name}</h3>
           </Modal.Title>
         </Modal.Header>
 
-        <Modal.Body className={styles["new-product-details"]}>
+        <Modal.Body className={styles.details}>
           <img src={modalDetails.img} alt={modalDetails.name} />
-          <p className={styles["new-product-details__description"]}>
-            {modalDetails.description}
-          </p>
+          <p className={styles.description}>{modalDetails.description}</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            className={styles["new-product-details__button"]}
-            onClick={handleClickCloseButton}
-          >
+          <Button className={styles.button} onClick={handleClickCloseButton}>
             Закрыть
           </Button>
         </Modal.Footer>

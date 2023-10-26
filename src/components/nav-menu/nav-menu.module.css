@@ -10,7 +10,7 @@
   }
 }
 
-.nav-menu {
+.container {
   padding-top: 20px;
   display: flex;
   align-items: center;
@@ -18,7 +18,7 @@
   margin: 0 auto;
 }
 
-.nav-menu__list {
+.list {
   padding: 0;
   margin: 0;
   display: flex;
@@ -27,16 +27,16 @@
   max-width: 807px;
 }
 
-.nav-menu__list_animation_appear {
+.list_animation_appear {
   animation-name: appearList;
   animation-duration: 0.3s;
 }
 
-.nav-menu__list-item {
+.item {
   list-style: none;
 }
 
-.nav-menu__list-item-link {
+.itemLink {
   text-decoration: none;
   font-weight: 600;
   font-size: 15px;
@@ -45,11 +45,11 @@
   transition: 0.6s;
 }
 
-.nav-menu__list-item-link:hover {
+.itemLink:hover {
   color: #ff2e65;
 }
 
-.nav-menu__wrapper-buttons {
+.buttons {
   width: 100%;
   max-width: 244px;
   display: flex;
@@ -58,14 +58,14 @@
   margin-left: 59px;
 }
 
-.nav-menu__wrapper-buttons_fixed {
+.buttons_fixed {
   width: 100%;
   max-width: 160px;
   display: block;
   margin-left: 59px;
 }
 
-.nav-menu__login-button {
+.loginButton {
   cursor: pointer;
   color: #696f7a;
   font-weight: 600;
@@ -76,15 +76,15 @@
   transition: 0.6s;
 }
 
-.nav-menu__login-button:hover {
+.loginButton:hover {
   color: #ff2e65;
 }
 
-.nav-menu__login-button_hidden {
+.loginButton_hidden {
   display: none;
 }
 
-.nav-menu__cart-button {
+.cart {
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -103,16 +103,16 @@
   transition: 0.6s;
 }
 
-.nav-menu__cart-button:hover {
+.cart:hover {
   background: #cc2551;
 }
 
-.nav-menu_fixed-header {
+.fixedHeader {
   justify-content: center;
   padding: 20px;
 }
 
-.nav-menu_fixed-header::before {
+.fixedHeader::before {
   content: url(../../images/mini_logo.svg);
   width: 64px;
   height: 64px;

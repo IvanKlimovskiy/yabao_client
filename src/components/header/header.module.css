@@ -10,18 +10,18 @@
   }
 }
 
-.header {
+.container {
   padding-top: 8px;
   width: 100%;
   max-width: 1110px;
 }
 
-.header__wrapper {
+.wrapper {
   display: flex;
   justify-content: space-between;
 }
 
-.header__heading {
+.title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,14 +33,14 @@
   text-align: center;
 }
 
-.header__wrapper-logo-and-info {
+.top {
   width: 100%;
   max-width: 520px;
   display: flex;
   justify-content: space-between;
 }
 
-.header__wrapper-phone-and-button {
+.bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,7 +48,7 @@
   max-width: 422px;
 }
 
-.header__button-call {
+.button {
   cursor: pointer;
   font-weight: 700;
   font-size: 14px;
@@ -61,16 +61,16 @@
   transition: 0.6s;
 }
 
-.header__button-call:hover {
+.button:hover {
   color: #ff2e65;
 }
 
-.header__phone-number {
+.phone {
   color: #ff2e65;
   font-size: 26px;
 }
 
-.header_fixed {
+.fixed {
   box-sizing: border-box;
   width: 100%;
   background-color: #fff;
@@ -81,6 +81,6 @@
   animation-duration: 0.3s;
 }
 
-.header_fixed .header__wrapper {
+.fixed .wrapper {
   display: none;
 }

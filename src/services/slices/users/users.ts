@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchUsers } from "../../../utils";
-import { jsonDataUsers, UsersState } from "./index.types";
+import { fetchUsers } from "../../../utils/utils";
+import { jsonDataUsers, UsersState } from "./users.types";
 
 export const getUsers = createAsyncThunk<jsonDataUsers>(
   "users/fetchUsers",
