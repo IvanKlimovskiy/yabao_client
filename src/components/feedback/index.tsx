@@ -8,26 +8,32 @@ import { useAppSelector } from "../../services/store/index.types";
 const Feedback = () => {
   // Логика
   const { users } = useAppSelector((state) => state.users);
-  const usersFeedback = users.map(({ _id, name, img }) => {
-    return (
-      <SwiperSlide
-        className={styles["feedback_slide"]}
-        style={{ display: "flex" }}
-        key={_id}
-      >
-        <a className={styles["feedback__link"]} href="#">
-          <figure>
-            <div className={styles["feedback__item"]}>
-              <img className={styles["feedback__image"]} src={img} alt={name} />
-            </div>
-            <figcaption className={styles["feedback__image-description"]}>
-              {name}
-            </figcaption>
-          </figure>
-        </a>
-      </SwiperSlide>
-    );
-  });
+  const usersFeedback = [...users, ...users].map(
+    ({ _id, name, img }, index) => {
+      return (
+        <SwiperSlide
+          className={styles["feedback_slide"]}
+          style={{ display: "flex" }}
+          key={`${_id}${index}`}
+        >
+          <a className={styles["feedback__link"]} href="#">
+            <figure>
+              <div className={styles["feedback__item"]}>
+                <img
+                  className={styles["feedback__image"]}
+                  src={img}
+                  alt={name}
+                />
+              </div>
+              <figcaption className={styles["feedback__image-description"]}>
+                {name}
+              </figcaption>
+            </figure>
+          </a>
+        </SwiperSlide>
+      );
+    },
+  );
   // Вёрстка
   return (
     <section className={styles["feedback"]}>
