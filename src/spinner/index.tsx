@@ -1,21 +1,23 @@
-import { SpinnerComponent } from './spinner.types';
+import { SpinnerComponent } from "./index.types";
 
-const Spinner: React.FC<SpinnerComponent> = ({ height }) => {
+const Index: React.FC<SpinnerComponent> = ({ height }) => {
   return (
     <div
       style={{
-        margin: 'auto',
+        margin: "auto",
         height,
-        display: 'flex',
-        alignItems: 'center',
-      }}>
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        style={{ margin: 'auto', background: 'none', display: 'block' }}
+        style={{ margin: "auto", background: "none", display: "block" }}
         width="200px"
         height="200px"
         viewBox="0 0 100 100"
-        preserveAspectRatio="xMidYMid">
+        preserveAspectRatio="xMidYMid"
+      >
         <g transform="translate(80,50)">
           <g transform="rotate(0)">
             <circle cx="0" cy="0" r="7" fill="#1c4595" fillOpacity="1">
@@ -26,14 +28,16 @@ const Spinner: React.FC<SpinnerComponent> = ({ height }) => {
                 values="1.5 1.5;1 1"
                 keyTimes="0;1"
                 dur="1s"
-                repeatCount="indefinite"></animateTransform>
+                repeatCount="indefinite"
+              ></animateTransform>
               <animate
                 attributeName="fillOpacity"
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
                 values="1;0"
-                begin="-0.875s"></animate>
+                begin="-0.875s"
+              ></animate>
             </circle>
           </g>
         </g>
@@ -47,14 +51,16 @@ const Spinner: React.FC<SpinnerComponent> = ({ height }) => {
                 values="1.5 1.5;1 1"
                 keyTimes="0;1"
                 dur="1s"
-                repeatCount="indefinite"></animateTransform>
+                repeatCount="indefinite"
+              ></animateTransform>
               <animate
                 attributeName="fillOpacity"
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
                 values="1;0"
-                begin="-0.75s"></animate>
+                begin="-0.75s"
+              ></animate>
             </circle>
           </g>
         </g>
@@ -68,14 +74,16 @@ const Spinner: React.FC<SpinnerComponent> = ({ height }) => {
                 values="1.5 1.5;1 1"
                 keyTimes="0;1"
                 dur="1s"
-                repeatCount="indefinite"></animateTransform>
+                repeatCount="indefinite"
+              ></animateTransform>
               <animate
                 attributeName="fillOpacity"
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
                 values="1;0"
-                begin="-0.625s"></animate>
+                begin="-0.625s"
+              ></animate>
             </circle>
           </g>
         </g>
@@ -89,14 +97,16 @@ const Spinner: React.FC<SpinnerComponent> = ({ height }) => {
                 values="1.5 1.5;1 1"
                 keyTimes="0;1"
                 dur="1s"
-                repeatCount="indefinite"></animateTransform>
+                repeatCount="indefinite"
+              ></animateTransform>
               <animate
                 attributeName="fillOpacity"
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
                 values="1;0"
-                begin="-0.5s"></animate>
+                begin="-0.5s"
+              ></animate>
             </circle>
           </g>
         </g>
@@ -110,14 +120,16 @@ const Spinner: React.FC<SpinnerComponent> = ({ height }) => {
                 values="1.5 1.5;1 1"
                 keyTimes="0;1"
                 dur="1s"
-                repeatCount="indefinite"></animateTransform>
+                repeatCount="indefinite"
+              ></animateTransform>
               <animate
                 attributeName="fillOpacity"
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
                 values="1;0"
-                begin="-0.375s"></animate>
+                begin="-0.375s"
+              ></animate>
             </circle>
           </g>
         </g>
@@ -131,14 +143,16 @@ const Spinner: React.FC<SpinnerComponent> = ({ height }) => {
                 values="1.5 1.5;1 1"
                 keyTimes="0;1"
                 dur="1s"
-                repeatCount="indefinite"></animateTransform>
+                repeatCount="indefinite"
+              ></animateTransform>
               <animate
                 attributeName="fillOpacity"
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
                 values="1;0"
-                begin="-0.25s"></animate>
+                begin="-0.25s"
+              ></animate>
             </circle>
           </g>
         </g>
@@ -152,14 +166,16 @@ const Spinner: React.FC<SpinnerComponent> = ({ height }) => {
                 values="1.5 1.5;1 1"
                 keyTimes="0;1"
                 dur="1s"
-                repeatCount="indefinite"></animateTransform>
+                repeatCount="indefinite"
+              ></animateTransform>
               <animate
                 attributeName="fillOpacity"
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
                 values="1;0"
-                begin="-0.125s"></animate>
+                begin="-0.125s"
+              ></animate>
             </circle>
           </g>
         </g>
@@ -173,14 +189,16 @@ const Spinner: React.FC<SpinnerComponent> = ({ height }) => {
                 values="1.5 1.5;1 1"
                 keyTimes="0;1"
                 dur="1s"
-                repeatCount="indefinite"></animateTransform>
+                repeatCount="indefinite"
+              ></animateTransform>
               <animate
                 attributeName="fillOpacity"
                 keyTimes="0;1"
                 dur="1s"
                 repeatCount="indefinite"
                 values="1;0"
-                begin="0s"></animate>
+                begin="0s"
+              ></animate>
             </circle>
           </g>
         </g>
@@ -189,4 +207,4 @@ const Spinner: React.FC<SpinnerComponent> = ({ height }) => {
   );
 };
 
-export default Spinner;
+export default Index;

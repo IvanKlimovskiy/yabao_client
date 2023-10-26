@@ -1,24 +1,35 @@
-import style from "../components/menu/menu.module.css";
+import { BASE_URL } from "../constants";
+import { jsonData } from "../services/slices/menu/index.types";
+import { jsonDataUsers } from "../services/slices/users/index.types";
 
-interface Data {
-  id: number;
-  name: string;
-  img: string;
-  price: number;
-  description: string;
-  isNew: boolean;
+async function checkResponse(
+  response: Response[] | Response,
+): Promise<jsonData[] | jsonDataUsers> {
+  if (Array.isArray(response)) {
+    const promises = response.map((response: Response) => {
+      if (!response.ok) {
+        return Promise.reject(`Ошибка: ${response.status}`);
+      }
+      return response.json();
+    });
+    return await Promise.all(promises);
+  } else {
+    if (!response.ok) {
+      return Promise.reject(`Ошибка: ${response.status}`);
+    }
+    return response.json();
+  }
 }
-const generateData = (data: Data[]) => data.map(({id, name, price, description, img, isNew}) => {
-    return (
-        <li key={id} className={style["menu__item"]}>
-        {isNew ? <div className={style["menu__item-label"]}>new</div> : null}
-                <img className={style["menu__item-image"]} src={img} alt={name} />
-    <h3 className={style["menu__item-heading"]}>{name}</h3>
-        <p className={style["menu__item-description"]}>{description}</p>
-        <div className={style["menu__item-footer"]}>
-    <div className={style["menu__item-price"]}>от {price} ₽</div>
-    <button className={style["menu__button"]}>В корзину</button>
-    </div>
-    </li>
-    )
-});
+
+export const fetchMenu = async () => {
+  const pizzaData = await fetch(`${BASE_URL}/api/menu/pizza`);
+  const saladData = await fetch(`${BASE_URL}/api/menu/salad`);
+  const rollData = await fetch(`${BASE_URL}/api/menu/roll`);
+  const drinkData = await fetch(`${BASE_URL}/api/menu/drink`);
+  return checkResponse([pizzaData, saladData, rollData, drinkData]);
+};
+
+export const fetchUsers = async () => {
+  const usersData = await fetch(`${BASE_URL}/api/users`);
+  return checkResponse(usersData);
+};

@@ -1,41 +1,56 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import ReactDOM from "react-dom";
-import { useAppDispatch, useAppSelector } from "../../types/hooks";
-import { close } from "../../services/slices/modal";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../services/store/index.types";
+import { close, removeModalDetails } from "../../services/slices/modal";
+import styles from "./index.module.css";
+import React from "react";
 
 const NewProductDetails = () => {
   const dispatch = useAppDispatch();
-  const { isOpenedModal } = useAppSelector((state) => state.modalSlice);
-  const productDetails = useAppSelector(
-    (state) => state.modalSlice.modalDetails,
+  const { isOpenedModal, modalDetails } = useAppSelector(
+    (state) => state.modal,
   );
   const handleClickCloseButton = () => {
     dispatch(close());
+    dispatch(removeModalDetails());
   };
 
-  const modal = productDetails && (
-    <Modal
-      show={isOpenedModal}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton></Modal.Header>
-      <Modal.Body>
-        <img src={productDetails.img} alt={productDetails.name} />
-        <h3>{productDetails.name}</h3>
-        <p>{productDetails.description}</p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={handleClickCloseButton}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-  );
+  return (
+    modalDetails && (
+      <Modal
+        onHide={handleClickCloseButton}
+        show={isOpenedModal}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <h3 className={styles["new-product-details__heading"]}>
+              {modalDetails.name}
+            </h3>
+          </Modal.Title>
+        </Modal.Header>
 
-  return ReactDOM.createPortal(
-    modal,
-    document.getElementById("modals") as HTMLElement,
+        <Modal.Body className={styles["new-product-details"]}>
+          <img src={modalDetails.img} alt={modalDetails.name} />
+          <p className={styles["new-product-details__description"]}>
+            {modalDetails.description}
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            className={styles["new-product-details__button"]}
+            onClick={handleClickCloseButton}
+          >
+            Закрыть
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    )
   );
 };
 

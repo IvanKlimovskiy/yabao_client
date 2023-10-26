@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { INewProductDetails, modalState } from "../../types/reducers";
+import { modalState } from "./index.types";
+import { MenuObject } from "../menu/index.types";
 
 const initialState: modalState = {
   isOpenedModal: false,
   modalDetails: null,
 };
 
-const modalSlice = createSlice({
+const modal = createSlice({
   name: "modal",
   initialState,
   reducers: {
@@ -16,7 +17,7 @@ const modalSlice = createSlice({
     close: (state) => {
       state.isOpenedModal = false;
     },
-    setModalDetails: (state, action: PayloadAction<INewProductDetails>) => {
+    setModalDetails: (state, action: PayloadAction<MenuObject>) => {
       state.modalDetails = action.payload;
     },
     removeModalDetails: (state) => {
@@ -25,6 +26,6 @@ const modalSlice = createSlice({
   },
 });
 
-const { actions, reducer } = modalSlice;
+const { actions, reducer } = modal;
 export const { open, close, setModalDetails, removeModalDetails } = actions;
 export default reducer;

@@ -1,9 +1,16 @@
 import logo from "../../images/logo.svg";
-import styles from "../header/header.module.css";
+import styles from "./index.module.css";
 import NavMenu from "../nav-menu";
-const Header = () => {
+import { HeaderComponent } from "./index.types";
+import React from "react";
+
+const Header: React.FC<HeaderComponent> = ({ isFixedHeader }) => {
   return (
-    <header className={styles.header}>
+    <header
+      className={
+        isFixedHeader ? `${styles["header_fixed"]}` : `${styles["header"]}`
+      }
+    >
       <div className={styles["header__wrapper"]}>
         <div className={styles["header__wrapper-logo-and-info"]}>
           <img src={logo} alt="Логотип" />
@@ -18,9 +25,8 @@ const Header = () => {
           <div className={styles["header__phone-number"]}>8 800 333-36-62</div>
         </div>
       </div>
-      <NavMenu />
+      <NavMenu isFixedHeader={isFixedHeader} />
     </header>
   );
 };
-
 export default Header;
