@@ -16,26 +16,19 @@ const Menu = () => {
   const rollData: MenuElement = menu[2];
   const drinkData: MenuElement = menu[3];
   const generateData = (data: MenuObject[]) =>
-    data.map(({ _id, name, price, description, img, isNewProduct }) => (
-      <li key={_id} className={style.item}>
-        {isNewProduct ? <div className={style.label}>new</div> : null}
-        <img className={style.itemImage} src={img} alt={name} />
-        <h3 className={style.itemTitle}>{name}</h3>
-        <p className={style.temDescription}>{description}</p>
+    data.map((element) => (
+      <li key={element._id} className={style.item}>
+        {element.isNewProduct ? (
+          <div className={style.itemLabel}>new</div>
+        ) : null}
+        <img className={style.itemImage} src={element.img} alt={element.name} />
+        <h3 className={style.itemTitle}>{element.name}</h3>
+        <p className={style.itemDescription}>{element.description}</p>
         <div className={style.itemFooter}>
-          <div className={style.itemPrice}>от {price} ₽</div>
+          <div className={style.itemPrice}>от {element.price} ₽</div>
           <button
             onClick={() => {
-              dispatch(
-                addToCart({
-                  _id,
-                  name,
-                  price,
-                  description,
-                  img,
-                  isNewProduct,
-                }),
-              );
+              dispatch(addToCart({ ...element, amount: 1 }));
             }}
             className={style.button}
           >

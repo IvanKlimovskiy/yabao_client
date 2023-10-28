@@ -50,6 +50,7 @@
 }
 
 .buttons {
+  position: relative;
   width: 100%;
   max-width: 244px;
   display: flex;
@@ -59,6 +60,7 @@
 }
 
 .buttons_fixed {
+  position: relative;
   width: 100%;
   max-width: 160px;
   display: block;
@@ -85,7 +87,6 @@
 }
 
 .cart {
-  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;

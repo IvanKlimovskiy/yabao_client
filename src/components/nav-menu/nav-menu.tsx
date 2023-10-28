@@ -1,11 +1,20 @@
-import React from "react";
+import { FC } from "react";
 import styles from "./nav-menu.module.css";
 import { HeaderComponent } from "../header/header.types";
-import { useAppSelector } from "../../services/store/store.types";
-import CartPreview from "../cart/cart.tsx";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../services/store/store.types";
+import Cart from "../cart/cart.tsx";
+import { toggleCart } from "../../services/slices/cart/cart";
 
-const NavMenu: React.FC<HeaderComponent> = ({ isFixedHeader }) => {
-  const { addedToCart } = useAppSelector((state) => state.cart);
+const NavMenu: FC<HeaderComponent> = ({ isFixedHeader }) => {
+  const { cart } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+
+  const onOpen = () => {
+    dispatch(toggleCart(true));
+  };
 
   return (
     <nav
@@ -70,6 +79,7 @@ const NavMenu: React.FC<HeaderComponent> = ({ isFixedHeader }) => {
       </ul>
       <div className={isFixedHeader ? styles.buttons_fixed : styles.buttons}>
         <button
+          type="button"
           className={
             isFixedHeader
               ? `${styles.loginButton} ${styles.loginButton_hidden}`
@@ -78,11 +88,12 @@ const NavMenu: React.FC<HeaderComponent> = ({ isFixedHeader }) => {
         >
           Войти
         </button>
-        <button className={styles.cart}>
+        <div onClick={onOpen} className={styles.cart}>
           <div>Корзина</div>
-          <div style={{ width: 21 }}>{addedToCart.length}</div>
-          <CartPreview />
-        </button>
+          <div>|</div>
+          <div style={{ width: 21 }}>{cart.length}</div>
+        </div>
+        <Cart />
       </div>
     </nav>
   );
