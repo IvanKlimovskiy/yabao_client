@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import styles from "./nav-menu.module.css";
 import { HeaderComponent } from "../header/header.types";
 import {
@@ -9,6 +9,7 @@ import Cart from "../cart/cart.tsx";
 import { toggleCart } from "../../services/slices/cart/cart";
 
 const NavMenu: FC<HeaderComponent> = ({ isFixedHeader }) => {
+  const ref = useRef(null);
   const { cart } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
@@ -88,12 +89,10 @@ const NavMenu: FC<HeaderComponent> = ({ isFixedHeader }) => {
         >
           Войти
         </button>
-        <div onClick={onOpen} className={styles.cart}>
-          <div>Корзина</div>
-          <div>|</div>
-          <div style={{ width: 21 }}>{cart.length}</div>
+        <div ref={ref} onClick={onOpen} className={styles.cart}>
+          Корзина | {cart.length}
         </div>
-        <Cart />
+        <Cart navRef={ref} />
       </div>
     </nav>
   );

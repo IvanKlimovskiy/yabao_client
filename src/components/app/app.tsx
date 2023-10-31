@@ -14,6 +14,7 @@ import { getMenu } from "../../services/slices/menu/menu";
 import { getUsers } from "../../services/slices/users/users";
 import Spinner from "../../spinner/spinner.tsx";
 import ErrorPage from "../pages/error-page/error-page.tsx";
+import DeliveryAndPayment from "../delivery-and-payment/delivery-and-payment.tsx";
 
 const App = () => {
   const { loading, error } = useAppSelector((state) => state.menu);
@@ -54,6 +55,7 @@ const App = () => {
         <Menu />
       </main>
       <NewProductDetails />
+      <DeliveryAndPayment />
     </div>
   );
 };

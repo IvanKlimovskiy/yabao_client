@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface CartComponent {
-  isFixedHeader: boolean;
+  navRef: React.MutableRefObject<null>;
 }

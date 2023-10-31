@@ -17,11 +17,15 @@ const CartElement: FC<CartElementComponent> = ({ element }) => {
   };
 
   const decreaseButtonHandler = () => {
-    dispatch(decreaseAmount(_id));
+    setTimeout(() => {
+      dispatch(decreaseAmount(_id));
+    }, 0);
   };
 
   const buttonHandler = () => {
-    dispatch(removeFromCart(element));
+    setTimeout(() => {
+      dispatch(removeFromCart(element));
+    }, 0);
   };
 
   return (
