@@ -1,11 +1,11 @@
 import Map from "../map/map.tsx";
-import styles from "./delivery-and-payment.module.css";
+import styles from "./delivery-payment.module.css";
 import shop from "../../images/about-shop.png";
 import delivery from "../../images/about-delivery.png";
 import speed from "../../images/about-speed.png";
 import comp from "../../images/about-comp.png";
 
-const DeliveryAndPayment = () => (
+const DeliveryPayment = () => (
   <section className={styles.container}>
     <div className={styles.wrapper}>
       <h2 className={styles.title}>Оплата и доставка</h2>
@@ -48,4 +48,4 @@ const DeliveryAndPayment = () => (
   </section>
 );
 
-export default DeliveryAndPayment;
+export default DeliveryPayment;
