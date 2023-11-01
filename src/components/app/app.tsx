@@ -16,6 +16,7 @@ import Spinner from "../../spinner/spinner.tsx";
 import ErrorPage from "../pages/error-page/error-page.tsx";
 import DeliveryPayment from "../delivery-payment/delivery-payment.tsx";
 import SpecialOffers from "../special-offers/special-offers.tsx";
+import Footer from "../footer/footer.tsx";
 
 const App = () => {
   const { loading, error } = useAppSelector((state) => state.menu);
@@ -58,6 +59,7 @@ const App = () => {
       <NewProductDetails />
       <SpecialOffers />
       <DeliveryPayment />
+      <Footer />
     </div>
   );
 };
