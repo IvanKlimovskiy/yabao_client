@@ -17,6 +17,7 @@ import ErrorPage from "../pages/error-page/error-page.tsx";
 import DeliveryPayment from "../delivery-payment/delivery-payment.tsx";
 import SpecialOffers from "../special-offers/special-offers.tsx";
 import Footer from "../footer/footer.tsx";
+import SignupModal from "../signup-modal/signup-modal.tsx";
 
 const App = () => {
   const { loading, error } = useAppSelector((state) => state.menu);
@@ -60,6 +61,7 @@ const App = () => {
       <SpecialOffers />
       <DeliveryPayment />
       <Footer />
+      <SignupModal />
     </div>
   );
 };

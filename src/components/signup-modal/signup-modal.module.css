@@ -1,0 +1,112 @@
+.container {
+  align-items: center;
+  position: relative;
+  padding: 45px 40px;
+}
+
+.title {
+  margin: 0 0 40px;
+  color: #FF2E65;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.body {
+  padding: 0;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form_code {
+
+}
+
+.input {
+  padding: 10px 20px;
+  width: 255px;
+  height: 48px;
+  color: #231F20;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+  border-radius: 8px;
+  border: 2px solid #E2E2E9;
+}
+
+.input_disabled {
+  padding: 10px 20px;
+  width: 255px;
+  height: 48px;
+  color: #231F20;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+}
+
+.label {
+  margin-right: 32px;
+  color: #686466;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.closeButton {
+  top: 0;
+  right: -34px;
+  position: absolute;
+}
+
+.bottom {
+  gap: 24px;
+  margin-top: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button {
+  padding: 14px 60px;
+  border: none;
+  color: #FFF;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 800;
+  width: 224px;
+  border-radius: 8px;
+  background: #FF2E65;
+  transition: .6s;
+}
+
+.button:hover {
+  background: #cc2551;
+}
+
+.text {
+  margin: 0;
+  max-width: 319px;
+  color: #9D9D9B;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.text a {
+  color: #9D9D9B;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19px;
+  text-decoration-line: underline;
+}

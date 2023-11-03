@@ -6,6 +6,7 @@ import {
 } from "../../services/store/store.types";
 import { open, setModalDetails } from "../../services/slices/modal/modal";
 import { MenuElement } from "../../services/slices/menu/menu.types";
+import { ModalType } from "../../services/slices/modal/modal.types";
 
 const NewProducts = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +28,7 @@ const NewProducts = () => {
                 isNewProduct,
               }),
             );
-            dispatch(open());
+            dispatch(open(ModalType.ProductDetails));
           }}
           className={styles.item}
         >

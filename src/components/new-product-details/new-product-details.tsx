@@ -6,13 +6,14 @@ import {
 } from "../../services/store/store.types";
 import { close, removeModalDetails } from "../../services/slices/modal/modal";
 import styles from "./new-product-details.module.css";
+import { ModalType } from "../../services/slices/modal/modal.types";
 
 const NewProductDetails = () => {
   const dispatch = useAppDispatch();
-  const { isOpenedModal, modalDetails } = useAppSelector(
+  const { isOpenedModal, modalDetails, type } = useAppSelector(
     (state) => state.modal,
   );
-  const handleClickCloseButton = () => {
+  const closeModal = () => {
     dispatch(close());
     dispatch(removeModalDetails());
   };
@@ -20,8 +21,8 @@ const NewProductDetails = () => {
   return (
     modalDetails && (
       <Modal
-        onHide={handleClickCloseButton}
-        show={isOpenedModal}
+        onHide={closeModal}
+        show={isOpenedModal && type === ModalType.ProductDetails}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -31,13 +32,12 @@ const NewProductDetails = () => {
             <h3 className={styles.title}>{modalDetails.name}</h3>
           </Modal.Title>
         </Modal.Header>
-
         <Modal.Body className={styles.details}>
           <img src={modalDetails.img} alt={modalDetails.name} />
           <p className={styles.description}>{modalDetails.description}</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button className={styles.button} onClick={handleClickCloseButton}>
+          <Button className={styles.button} onClick={closeModal}>
             Закрыть
           </Button>
         </Modal.Footer>
