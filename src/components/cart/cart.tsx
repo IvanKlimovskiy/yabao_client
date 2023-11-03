@@ -26,14 +26,9 @@ const Cart: FC<CartComponent> = ({ navRef }) => {
       return false;
     }
 
-    if (
-      element.current === target ||
-      element.current.contains(target as Node)
-    ) {
-      return true;
-    }
-
-    return false;
+    return !!(
+      element.current === target || element.current.contains(target as Node)
+    );
   };
 
   const onClose = (event: MouseEvent) => {
