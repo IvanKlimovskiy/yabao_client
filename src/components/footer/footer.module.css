@@ -1,10 +1,18 @@
 .container {
+  position: relative;
   width: 100%;
   max-width: 1110px;
   gap: 92px;
   padding: 56px 0 77px;
   display: flex;
   justify-content: space-between;
+}
+
+.container::after {
+  position: absolute;
+  bottom: -18px;
+  right: -65px;
+  content: url("../../images/footer.png");
 }
 
 .legalInfo {
