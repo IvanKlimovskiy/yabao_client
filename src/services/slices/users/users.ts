@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchUsers } from "../../../utils/utils";
+import { fetchUsers } from "../../../utils/utils.tsx";
 import { jsonDataUsers, UsersState } from "./users.types";
 
 export const getUsers = createAsyncThunk<jsonDataUsers>(
@@ -8,9 +8,8 @@ export const getUsers = createAsyncThunk<jsonDataUsers>(
     const response = await fetchUsers();
     if (!Array.isArray(response)) {
       return response;
-    } else {
-      throw new Error();
     }
+    throw new Error();
   },
 );
 

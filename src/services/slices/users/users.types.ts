@@ -9,6 +9,8 @@ export interface UserData {
   _id: string;
   name: string;
   img: string;
+  number: string;
+  refreshToken: string;
 }
 
 export interface UsersState {
