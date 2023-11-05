@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styles from "./app.module.css";
 import Header from "../header/header.tsx";
-import Slider from "../slider/slider.tsx";
-import Feedback from "../feedback/feedback.tsx";
-import NewProducts from "../new-products/new-products.tsx";
-import NewProductDetails from "../new-product-details/new-product-details.tsx";
-import Menu from "../menu/menu.tsx";
 import {
   useAppDispatch,
   useAppSelector,
@@ -14,10 +10,9 @@ import { getMenu } from "../../services/slices/menu/menu";
 import { getUsers } from "../../services/slices/users/users";
 import Spinner from "../../spinner/spinner.tsx";
 import ErrorPage from "../pages/error-page/error-page.tsx";
-import DeliveryPayment from "../delivery-payment/delivery-payment.tsx";
-import SpecialOffers from "../special-offers/special-offers.tsx";
 import Footer from "../footer/footer.tsx";
 import SignupModal from "../signup-modal/signup-modal.tsx";
+import { Profile, Main } from "../../pages";
 
 const App = () => {
   const { loading, error } = useAppSelector((state) => state.menu);
@@ -49,20 +44,24 @@ const App = () => {
   if (error) return <ErrorPage />;
 
   return (
-    <div className={styles.page}>
-      <Header isFixedHeader={isFixedHeader} />
-      <main className={styles.main}>
-        <Slider isFixedHeader={isFixedHeader} />
-        <Feedback />
-        <NewProducts />
-        <Menu />
-      </main>
-      <NewProductDetails />
-      <SpecialOffers />
-      <DeliveryPayment />
-      <Footer />
-      <SignupModal />
-    </div>
+    <BrowserRouter>
+      <div className={styles.page}>
+        <Header isFixedHeader={isFixedHeader} />
+        <Routes>
+          <Route
+            path={"/"}
+            element={
+              <main className={styles.main}>
+                <Main isFixedHeader={isFixedHeader} />
+              </main>
+            }
+          />
+          <Route path={"/profile"} element={<Profile />} />
+        </Routes>
+        <Footer />
+        <SignupModal />
+      </div>
+    </BrowserRouter>
   );
 };
 

@@ -3,12 +3,15 @@ import logo from "../../images/logo.svg";
 import styles from "./header.module.css";
 import NavMenu from "../nav-menu/nav-menu.tsx";
 import { HeaderComponent } from "./header.types";
+import { NavLink } from "react-router-dom";
 
 const Header: FC<HeaderComponent> = ({ isFixedHeader }) => (
   <header className={isFixedHeader ? `${styles.fixed}` : `${styles.container}`}>
     <div className={styles.wrapper}>
       <div className={styles.top}>
-        <img src={logo} alt="Логотип" />
+        <NavLink to={"/"}>
+          <img src={logo} alt="Логотип" />
+        </NavLink>
         <h1 className={styles.title}>Доставка пиццы в Санкт-Петербурге</h1>
       </div>
       <div className={styles.bottom}>

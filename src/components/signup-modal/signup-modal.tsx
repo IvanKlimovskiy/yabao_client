@@ -14,6 +14,7 @@ import { fetchCode } from "../../utils/utils.tsx";
 import {
   setAccessToken,
   setIsAuthorized,
+  setProfileData,
 } from "../../services/slices/profile/profile.ts";
 import { AuthenticatedUserData } from "./signup-modal.types.ts";
 
@@ -57,13 +58,14 @@ const SignupModal = () => {
       setIsCodeVerifying(true);
       fetchCode("/api/auth/verify", { number, code: +newCode }, "VERIFY_CODE")
         .then((data: AuthenticatedUserData) => {
-          console.log(data);
+          const { name, img, number } = data.user;
           localStorage.setItem(
             "refreshToken",
             JSON.stringify(data.tokens.refreshToken),
           );
           dispatch(setAccessToken(data.tokens.accessToken));
           dispatch(setIsAuthorized(true));
+          dispatch(setProfileData({ name, img, number }));
           setIsCodeVerifying(false);
           setCode("");
           setNumber("");
