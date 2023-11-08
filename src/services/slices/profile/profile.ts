@@ -20,6 +20,7 @@ const initialState = {
   profileRequest: false,
   profileFailed: false,
   accessToken: "",
+  isLoggingOut: false,
   isAuthorized: false,
   profileData: {
     name: "",
@@ -40,6 +41,9 @@ const profile = createSlice({
     },
     setProfileData: (state, action: PayloadAction<ProfileDataType>) => {
       state.profileData = action.payload;
+    },
+    setIsLoggingOut: (state, action: PayloadAction<boolean>) => {
+      state.isLoggingOut = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -80,5 +84,10 @@ const profile = createSlice({
 });
 
 const { actions, reducer } = profile;
-export const { setAccessToken, setIsAuthorized, setProfileData } = actions;
+export const {
+  setAccessToken,
+  setIsAuthorized,
+  setProfileData,
+  setIsLoggingOut,
+} = actions;
 export default reducer;

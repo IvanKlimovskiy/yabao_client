@@ -6,8 +6,11 @@ import {
 import present from "../../images/present.jpg";
 import React, { useState } from "react";
 import { generateChangerInputValue, logout } from "../../utils/utils.tsx";
-import { NavLink } from "react-router-dom";
-import { setIsAuthorized } from "../../services/slices/profile/profile.ts";
+import { useNavigate } from "react-router-dom";
+import {
+  setIsAuthorized,
+  setIsLoggingOut,
+} from "../../services/slices/profile/profile.ts";
 
 const Profile = () => {
   const { number, name, img } = useAppSelector(
@@ -15,6 +18,7 @@ const Profile = () => {
   );
   const [numberInputValue, setNumberInputValue] = useState(number);
   const [nameInputValue, setNameInputValue] = useState(name);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const onChangeNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
     generateChangerInputValue(setNumberInputValue, event.target.value);
@@ -23,15 +27,22 @@ const Profile = () => {
     generateChangerInputValue(setNameInputValue, event.target.value);
   };
   const buttonLogoutHandler = () => {
-    logout().then(
-      (data: { status: "success" | "failure"; message: string }) => {
+    dispatch(setIsLoggingOut(true));
+    logout()
+      .then((data: { status: "success" | "failure"; message: string }) => {
         const { status } = data;
         if (status === "success") {
           dispatch(setIsAuthorized(false));
           localStorage.removeItem("refreshToken");
         }
-      },
-    );
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        navigate("/");
+        dispatch(setIsLoggingOut(false));
+      });
   };
   return (
     <section className={styles.container}>
@@ -80,7 +91,7 @@ const Profile = () => {
         />
       </form>
       <button type="button" onClick={buttonLogoutHandler}>
-        <NavLink to={"/"}>Выйти</NavLink>
+        Выйти
       </button>
     </section>
   );

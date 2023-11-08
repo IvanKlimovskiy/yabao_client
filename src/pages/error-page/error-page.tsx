@@ -1,4 +1,4 @@
-import img from "../../../images/error_img.png";
+import img from "../../images/error_img.png";
 import styles from "./error-page.module.css";
 
 const ErrorPage = () => (
