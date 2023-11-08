@@ -13,13 +13,16 @@ import ErrorPage from "../pages/error-page/error-page.tsx";
 import Footer from "../footer/footer.tsx";
 import SignupModal from "../signup-modal/signup-modal.tsx";
 import { Profile, Main } from "../../pages";
+import { getCurrentUser } from "../../services/slices/profile/profile.ts";
 
 const App = () => {
   const { loading, error } = useAppSelector((state) => state.menu);
+  const loadingProfileData = useAppSelector((state) => state.profile.loading);
   const [isFixedHeader, setIsFixedHeader] = useState(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(getCurrentUser());
     dispatch(getMenu());
     dispatch(getUsers());
 
@@ -38,7 +41,7 @@ const App = () => {
     };
   }, []);
 
-  if (loading) {
+  if (loading || loadingProfileData) {
     return <Spinner height={"100vh"} />;
   }
   if (error) return <ErrorPage />;

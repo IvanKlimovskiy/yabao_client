@@ -11,7 +11,7 @@
 .container::after {
   position: absolute;
   bottom: -20px;
-  right: -65px;
+  right: 0;
   content: url("../../images/footer.png");
 }
 

@@ -1,13 +1,35 @@
 import styles from "./profile.module.css";
 import { useAppSelector } from "../../services/store/store.types.ts";
 import present from "../../images/present.jpg";
+import React, { useState } from "react";
+import { generateChangerInputValue, logout } from "../../utils/utils.tsx";
+import { NavLink } from "react-router-dom";
 
 const Profile = () => {
-  const { profileData } = useAppSelector((state) => state.profile);
-
+  const { number, name, img } = useAppSelector(
+    (state) => state.profile.profileData,
+  );
+  const [numberInputValue, setNumberInputValue] = useState(number);
+  const [nameInputValue, setNameInputValue] = useState(name);
+  const onChangeNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+    generateChangerInputValue(setNumberInputValue, event.target.value);
+  };
+  const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    generateChangerInputValue(setNameInputValue, event.target.value);
+  };
+  const buttonLogoutHandler = () => {
+    logout().then(
+      (data: { status: "success" | "failure"; message: string }) => {
+        const { status } = data;
+        if (status === "success") {
+          localStorage.removeItem("refreshToken");
+        }
+      },
+    );
+  };
   return (
-    <section>
-      <h2>Мои бонусы</h2>
+    <section className={styles.container}>
+      <h2 className={styles.title}>Мои бонусы</h2>
       <div>
         <img src={present} alt="Подарок" />
         <p>Бонусы появятся здесь после заказа</p>
@@ -17,16 +39,25 @@ const Profile = () => {
       </div>
       <h2>Личные данные</h2>
       <div>Фото профиля</div>
-      <img src={profileData.img} alt="Фото профиля" />
+      <img className={styles.avatar} src={img} alt="Фото профиля" />
       <form>
         <label htmlFor="name">Имя</label>
-        <input id={"name"} name={"name"} type="text" value={profileData.name} />
+        <input
+          disabled
+          id={"name"}
+          name={"name"}
+          type="text"
+          value={nameInputValue}
+          onChange={onChangeName}
+        />
         <label htmlFor="number">Номер телефона</label>
         <input
+          disabled
           id={"number"}
           name={"number"}
           type="text"
-          value={profileData.number}
+          value={numberInputValue}
+          onChange={onChangeNumber}
         />
         <label htmlFor="date">Дата рождения</label>
         <input id={"date"} name={"date"} type="date" />
@@ -42,7 +73,9 @@ const Profile = () => {
           type="checkbox"
         />
       </form>
-      <button>Выйти</button>
+      <button type="button" onClick={buttonLogoutHandler}>
+        <NavLink to={"/"}>Выйти</NavLink>
+      </button>
     </section>
   );
 };

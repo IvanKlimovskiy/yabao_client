@@ -1,4 +1,14 @@
+import React from "react";
 import { BASE_URL } from "../constants/constants";
+
+export const getTokenFromLocalStorage = () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (refreshToken) {
+    return JSON.parse(refreshToken);
+  } else {
+    return undefined;
+  }
+};
 
 async function checkResponse(response: Response[] | Response) {
   if (Array.isArray(response)) {
@@ -24,12 +34,10 @@ export const fetchMenu = async () => {
   const drinkData = await fetch(`${BASE_URL}/api/menu/drink`);
   return checkResponse([pizzaData, saladData, rollData, drinkData]);
 };
-
 export const fetchUsers = async () => {
   const usersData = await fetch(`${BASE_URL}/api/users`);
   return checkResponse(usersData);
 };
-
 export const fetchCode = async (
   endpoint: string,
   body: {},
@@ -53,4 +61,30 @@ export const fetchCode = async (
     body: JSON.stringify(body),
   });
   return checkResponse(data);
+};
+export const fetchCurrentUser = async () => {
+  const res = await fetch(`${BASE_URL}/api/users/me`, {
+    method: "GET",
+    headers: {
+      authorization: getTokenFromLocalStorage(),
+      "Content-Type": "application/json",
+    },
+  });
+  return checkResponse(res);
+};
+export const generateChangerInputValue = (
+  setStateAction: React.Dispatch<React.SetStateAction<string>>,
+  value: string,
+) => {
+  setStateAction(value);
+};
+export const logout = async () => {
+  const response = await fetch(`${BASE_URL}/api/auth/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refreshToken: getTokenFromLocalStorage() }),
+  });
+  return checkResponse(response);
 };

@@ -10,7 +10,7 @@ import {
 } from "../../services/store/store.types";
 import { ModalType } from "../../services/slices/modal/modal.types";
 import { close } from "../../services/slices/modal/modal";
-import { fetchCode } from "../../utils/utils.tsx";
+import { fetchCode, generateChangerInputValue } from "../../utils/utils.tsx";
 import {
   setAccessToken,
   setIsAuthorized,
@@ -18,6 +18,9 @@ import {
 } from "../../services/slices/profile/profile.ts";
 import { AuthenticatedUserData } from "./signup-modal.types.ts";
 
+type responseCodeType = {
+  code: number;
+};
 const SignupModal = () => {
   const { isOpenedModal, type } = useAppSelector((state) => state.modal);
   const dispatch = useAppDispatch();
@@ -30,17 +33,20 @@ const SignupModal = () => {
   const [isValidationError, setIsValidationError] = useState(false);
   const [number, setNumber] = useState("");
   const [code, setCode] = useState("");
-  const isCorrectPhoneNumber = validator.isMobilePhone(number, "ru-RU", {
-    strictMode: true,
-  });
+  const isCorrectPhoneNumber = (value: string) =>
+    validator.isMobilePhone(value, "ru-RU", {
+      strictMode: true,
+    });
   const requestCode = () => {
     setIsCodeSent(true);
-    fetchCode("/api/auth/login", { number }, "GET_CODE").then((data) => {
-      console.log(data);
-    });
+    fetchCode("/api/auth/login", { number }, "GET_CODE").then(
+      (data: responseCodeType) => {
+        console.log(data.code);
+      },
+    );
   };
   const handleClick = () => {
-    if (isCorrectPhoneNumber) {
+    if (isCorrectPhoneNumber(number)) {
       requestCode();
     } else {
       setIsValidationError(true);
@@ -48,22 +54,23 @@ const SignupModal = () => {
   };
   const changeInputNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newNumber = event.target.value;
-    setNumber(newNumber);
+    isCorrectPhoneNumber(newNumber)
+      ? setIsValidationError(false)
+      : setIsValidationError(true);
+    generateChangerInputValue(setNumber, newNumber);
     newNumber.length === 0 ? setIsValidationError(false) : null;
   };
   const changeInputCode = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newCode = event.target.value;
-    setCode(newCode);
+    generateChangerInputValue(setCode, newCode);
     if (newCode.length === 4) {
       setIsCodeVerifying(true);
       fetchCode("/api/auth/verify", { number, code: +newCode }, "VERIFY_CODE")
         .then((data: AuthenticatedUserData) => {
           const { name, img, number } = data.user;
-          localStorage.setItem(
-            "refreshToken",
-            JSON.stringify(data.tokens.refreshToken),
-          );
-          dispatch(setAccessToken(data.tokens.accessToken));
+          const { accessToken, refreshToken } = data.tokens;
+          localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
+          dispatch(setAccessToken(accessToken));
           dispatch(setIsAuthorized(true));
           dispatch(setProfileData({ name, img, number }));
           setIsCodeVerifying(false);

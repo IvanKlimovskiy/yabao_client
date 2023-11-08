@@ -1,4 +1,6 @@
 .category {
+  width: 100%;
+  max-width: 1110px;
   padding: 55px 0;
 }
 
