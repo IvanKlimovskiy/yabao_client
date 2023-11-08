@@ -27,6 +27,7 @@ const SignupModal = () => {
   const closeModal = () => {
     dispatch(close());
   };
+  const { isAuthorized } = useAppSelector((state) => state.profile);
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isCodeVerifying, setIsCodeVerifying] = useState(false);
   const [isDisabledInput, setIsDisabledInput] = useState(true);
@@ -74,6 +75,7 @@ const SignupModal = () => {
           dispatch(setIsAuthorized(true));
           dispatch(setProfileData({ name, img, number }));
           setIsCodeVerifying(false);
+          setIsCodeSent(false);
           setCode("");
           setNumber("");
           closeModal();
@@ -186,7 +188,9 @@ const SignupModal = () => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       contentClassName={
-        isCodeSent ? styles.container_sentCode : styles.container
+        isCodeSent && !isAuthorized
+          ? styles.container_sentCode
+          : styles.container
       }
     >
       <CloseButton

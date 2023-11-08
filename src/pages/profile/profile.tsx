@@ -1,9 +1,13 @@
 import styles from "./profile.module.css";
-import { useAppSelector } from "../../services/store/store.types.ts";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../services/store/store.types.ts";
 import present from "../../images/present.jpg";
 import React, { useState } from "react";
 import { generateChangerInputValue, logout } from "../../utils/utils.tsx";
 import { NavLink } from "react-router-dom";
+import { setIsAuthorized } from "../../services/slices/profile/profile.ts";
 
 const Profile = () => {
   const { number, name, img } = useAppSelector(
@@ -11,6 +15,7 @@ const Profile = () => {
   );
   const [numberInputValue, setNumberInputValue] = useState(number);
   const [nameInputValue, setNameInputValue] = useState(name);
+  const dispatch = useAppDispatch();
   const onChangeNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
     generateChangerInputValue(setNumberInputValue, event.target.value);
   };
@@ -22,6 +27,7 @@ const Profile = () => {
       (data: { status: "success" | "failure"; message: string }) => {
         const { status } = data;
         if (status === "success") {
+          dispatch(setIsAuthorized(false));
           localStorage.removeItem("refreshToken");
         }
       },
