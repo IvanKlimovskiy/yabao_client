@@ -1,7 +1,9 @@
 .container {
-  margin-top: 28px;
+  max-width: 1110px;
+  margin: 28px auto 0;
 }
 
 .containerFixed {
-  margin-top: 163px;
+  max-width: 1110px;
+  margin: 163px auto 0;
 }

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchMenu } from "../../../utils/utils";
+import { fetchMenu } from "../../../utils/utils.tsx";
 import { jsonData, MenuState } from "./menu.types";
 
 export const getMenu = createAsyncThunk<jsonData[]>(

@@ -1,20 +1,30 @@
 import { FC, useRef } from "react";
+import { NavLink } from "react-router-dom";
 import styles from "./nav-menu.module.css";
 import { HeaderComponent } from "../header/header.types";
 import {
   useAppDispatch,
   useAppSelector,
 } from "../../services/store/store.types";
-import Cart from "../cart/cart.tsx";
 import { toggleCart } from "../../services/slices/cart/cart";
+import Cart from "../cart/cart.tsx";
+import { open } from "../../services/slices/modal/modal";
+import { ModalType } from "../../services/slices/modal/modal.types";
 
 const NavMenu: FC<HeaderComponent> = ({ isFixedHeader }) => {
   const ref = useRef(null);
-  const { cart } = useAppSelector((state) => state.cart);
+  const { cart, isOpenedCart } = useAppSelector((state) => state.cart);
+  const { isAuthorized, profileData } = useAppSelector(
+    (state) => state.profile,
+  );
   const dispatch = useAppDispatch();
 
   const onOpen = () => {
     dispatch(toggleCart(true));
+  };
+
+  const signup = () => {
+    dispatch(open(ModalType.Entering));
   };
 
   return (
@@ -79,20 +89,38 @@ const NavMenu: FC<HeaderComponent> = ({ isFixedHeader }) => {
         </li>
       </ul>
       <div className={isFixedHeader ? styles.buttons_fixed : styles.buttons}>
-        <button
-          type="button"
-          className={
-            isFixedHeader
-              ? `${styles.loginButton} ${styles.loginButton_hidden}`
-              : styles.loginButton
-          }
-        >
-          Войти
-        </button>
+        {isAuthorized ? (
+          <NavLink
+            to={"/profile"}
+            className={
+              isFixedHeader
+                ? `${styles.userContainer} ${styles.userContainer_hidden}`
+                : styles.userContainer
+            }
+          >
+            <img
+              className={styles.userImage}
+              src={profileData.img}
+              alt={profileData.name}
+            />
+          </NavLink>
+        ) : (
+          <button
+            onClick={signup}
+            type="button"
+            className={
+              isFixedHeader
+                ? `${styles.loginButton} ${styles.loginButton_hidden}`
+                : styles.loginButton
+            }
+          >
+            Войти
+          </button>
+        )}
         <div ref={ref} onClick={onOpen} className={styles.cart}>
           Корзина | {cart.length}
         </div>
-        <Cart navRef={ref} />
+        {isOpenedCart ? <Cart navRef={ref} /> : null}
       </div>
     </nav>
   );

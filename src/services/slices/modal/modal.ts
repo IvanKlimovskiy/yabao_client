@@ -1,20 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { modalState } from "./modal.types";
+import { modalState, ModalType } from "./modal.types";
 import { MenuObject } from "../menu/menu.types";
 
 const initialState: modalState = {
   isOpenedModal: false,
   modalDetails: null,
+  type: null,
 };
 
 const modal = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    open: (state) => {
+    open: (state, action: PayloadAction<ModalType>) => {
       state.isOpenedModal = true;
+      state.type = action.payload;
     },
     close: (state) => {
+      state.type = null;
       state.isOpenedModal = false;
     },
     setModalDetails: (state, action: PayloadAction<MenuObject>) => {

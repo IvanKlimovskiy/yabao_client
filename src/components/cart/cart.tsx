@@ -41,10 +41,10 @@ const Cart: FC<CartComponent> = ({ navRef }) => {
   };
 
   useEffect(() => {
-    window.addEventListener("click", onClose);
+    window.addEventListener("mousedown", onClose);
 
     return () => {
-      window.removeEventListener("click", onClose);
+      window.removeEventListener("mousedown", onClose);
     };
   }, []);
 
