@@ -80,8 +80,8 @@ const SignupModal = () => {
           setNumber("");
           closeModal();
         })
-        .catch((err: { statusCode: string; message: string }) => {
-          console.log(`${err.message}. ${err.statusCode}`);
+        .catch((error: { statusCode: string; message: string }) => {
+          console.log(`${error.message}. ${error.statusCode}`);
         });
     }
   };
