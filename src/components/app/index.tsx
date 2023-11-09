@@ -65,7 +65,10 @@ const App = () => {
                 </main>
               }
             />
-            <Route path={"/profile"} element={<Profile />} />
+            <Route
+              path={"/profile"}
+              element={<Profile isFixedHeader={isFixedHeader} />}
+            />
           </Routes>
           <Footer />
           <SignupModal />

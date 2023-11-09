@@ -8,18 +8,16 @@ import Menu from "../../components/menu/index.tsx";
 import DeliveryPayment from "../../components/delivery-payment/index.tsx";
 import SpecialOffers from "../../components/special-offers/index.tsx";
 
-const Main: React.FC<MainFC> = ({ isFixedHeader }) => {
-  return (
-    <>
-      <Slider isFixedHeader={isFixedHeader} />
-      <Feedback />
-      <NewProducts />
-      <Menu />
-      <NewProductDetails />
-      <SpecialOffers />
-      <DeliveryPayment />
-    </>
-  );
-};
+const Main: React.FC<MainFC> = ({ isFixedHeader }) => (
+  <>
+    <Slider isFixedHeader={isFixedHeader} />
+    <Feedback />
+    <NewProducts />
+    <Menu />
+    <NewProductDetails />
+    <SpecialOffers />
+    <DeliveryPayment />
+  </>
+);
 
 export default Main;
