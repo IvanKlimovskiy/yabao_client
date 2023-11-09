@@ -1,9 +1,9 @@
 import { FC } from "react";
+import { NavLink } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import styles from "./index.module.css";
 import NavMenu from "../nav-menu";
 import { HeaderComponent } from "./index.types.ts";
-import { NavLink } from "react-router-dom";
 
 const Header: FC<HeaderComponent> = ({ isFixedHeader }) => (
   <header className={isFixedHeader ? `${styles.fixed}` : `${styles.container}`}>

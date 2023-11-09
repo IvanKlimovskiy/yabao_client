@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { Spinner } from "react-bootstrap";
 import validator from "validator";
 import Modal from "react-bootstrap/Modal";
 import CloseButton from "react-bootstrap/CloseButton";
@@ -16,33 +17,58 @@ import {
   setIsAuthorized,
   setProfileData,
 } from "../../services/slices/profile";
-import { AuthenticatedUserData } from "./index.types.ts";
+import { AuthenticatedUserData, ResponseCodeType } from "./index.types.ts";
 
-type responseCodeType = {
-  code: number;
-};
 const SignupModal = () => {
   const { isOpenedModal, type } = useAppSelector((state) => state.modal);
+  const codeInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const closeModal = () => {
     dispatch(close());
   };
   const { isAuthorized } = useAppSelector((state) => state.profile);
-  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [isCodeSent, setIsCodeSent] = useState(true);
   const [isCodeVerifying, setIsCodeVerifying] = useState(false);
   const [isDisabledInput, setIsDisabledInput] = useState(true);
   const [isValidationError, setIsValidationError] = useState(false);
-  const [number, setNumber] = useState("");
-  const [code, setCode] = useState("");
+  const [number, setNumber] = useState("+79213531278");
+  const [code, setCode] = useState("1111");
   const isCorrectPhoneNumber = (value: string) =>
     validator.isMobilePhone(value, "ru-RU", {
       strictMode: true,
     });
+  const codeHandler = (code: number) => {
+    setIsCodeVerifying(true);
+    fetchCode("/api/auth/verify", { number, code: +code }, "VERIFY_CODE")
+      .then((data: AuthenticatedUserData) => {
+        const { name, img, number } = data.user;
+        const { accessToken, refreshToken } = data.tokens;
+        localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
+        dispatch(setAccessToken(accessToken));
+        dispatch(setIsAuthorized(true));
+        dispatch(setProfileData({ name, img, number }));
+        setIsCodeVerifying(false);
+        setIsCodeSent(false);
+        setCode("");
+        setNumber("");
+        closeModal();
+      })
+      .catch((error: { statusCode: string; message: string }) => {
+        console.log(`${error.message}. ${error.statusCode}`);
+      });
+  };
   const requestCode = () => {
     setIsCodeSent(true);
     fetchCode("/api/auth/login", { number }, "GET_CODE").then(
-      (data: responseCodeType) => {
-        console.log(data.code);
+      (data: ResponseCodeType) => {
+        if (codeInputRef.current) {
+          codeInputRef.current.value = `${data.code}`;
+          const newCode = `${data.code}`;
+          setCode(`${data.code}`);
+          if (newCode.length === 4) {
+            codeHandler(+newCode);
+          }
+        }
       },
     );
   };
@@ -65,24 +91,7 @@ const SignupModal = () => {
     const newCode = event.target.value;
     generateChangerInputValue(setCode, newCode);
     if (newCode.length === 4) {
-      setIsCodeVerifying(true);
-      fetchCode("/api/auth/verify", { number, code: +newCode }, "VERIFY_CODE")
-        .then((data: AuthenticatedUserData) => {
-          const { name, img, number } = data.user;
-          const { accessToken, refreshToken } = data.tokens;
-          localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
-          dispatch(setAccessToken(accessToken));
-          dispatch(setIsAuthorized(true));
-          dispatch(setProfileData({ name, img, number }));
-          setIsCodeVerifying(false);
-          setIsCodeSent(false);
-          setCode("");
-          setNumber("");
-          closeModal();
-        })
-        .catch((err: { statusCode: string; message: string }) => {
-          console.log(`${err.message}. ${err.statusCode}`);
-        });
+      codeHandler(+newCode);
     }
   };
   const unauthorizedModalView = (
@@ -138,7 +147,11 @@ const SignupModal = () => {
           disabled={isDisabledInput}
           onChange={changeInputNumber}
           value={number}
-          className={`${styles.input} ${styles.input_disabled}`}
+          className={
+            isDisabledInput
+              ? `${styles.input} ${styles.input_disabled}`
+              : `${styles.input} ${styles.input_codeSent}`
+          }
           id="phone"
           name="phone"
           type="text"
@@ -146,10 +159,17 @@ const SignupModal = () => {
         <button
           disabled={isCodeVerifying}
           type="button"
-          onClick={() => setIsDisabledInput(false)}
+          onClick={() => {
+            if (isCorrectPhoneNumber(number)) {
+              setIsDisabledInput((prevState) => !prevState);
+              setIsValidationError(false);
+            } else {
+              setIsValidationError(true);
+            }
+          }}
           className={styles.changeNumberButton}
         >
-          Изменить
+          {isDisabledInput ? "Изменить" : "Принять"}
         </button>
       </form>
       <form
@@ -160,17 +180,37 @@ const SignupModal = () => {
           htmlFor="code"
         >
           Код из СМС
+          {isCodeVerifying ? (
+            <Spinner className={styles.spinner} size="sm" />
+          ) : null}
         </label>
         <input
+          ref={codeInputRef}
           disabled={isCodeVerifying}
           onChange={changeInputCode}
           value={code}
-          className={`${styles.input} ${styles.input_code}`}
+          className={
+            isCodeVerifying
+              ? `${styles.input} ${styles.input_code} ${styles.input_verifying}`
+              : `${styles.input} ${styles.input_code}`
+          }
           id="code"
           name="code"
           type="text"
         />
+        <div
+          className={
+            isValidationError
+              ? `${styles.validationError} ${styles.validationError_visible} ${styles.validationError_secondModal}`
+              : `${styles.validationError} ${styles.validationError_secondModal}`
+          }
+        >
+          <img src={err} alt="!" />
+          <span>Неверный номер</span>
+        </div>
         <button
+          type="button"
+          onClick={handleClick}
           disabled={isCodeVerifying}
           className={styles.changeNumberButton}
         >

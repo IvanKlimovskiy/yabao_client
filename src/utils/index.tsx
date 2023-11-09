@@ -5,9 +5,8 @@ export const getTokenFromLocalStorage = () => {
   const refreshToken = localStorage.getItem("refreshToken");
   if (refreshToken) {
     return JSON.parse(refreshToken);
-  } else {
-    return undefined;
   }
+  return undefined;
 };
 
 async function checkResponse(response: Response[] | Response) {

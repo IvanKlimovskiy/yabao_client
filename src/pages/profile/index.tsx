@@ -1,15 +1,15 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   useAppDispatch,
   useAppSelector,
 } from "../../services/store/index.types.ts";
 import present from "../../images/present.jpg";
-import React, { useState } from "react";
 import { generateChangerInputValue, logout } from "../../utils/index.tsx";
-import { useNavigate } from "react-router-dom";
 import {
   setIsAuthorized,
   setIsLoggingOut,
-} from "../../services/slices/profile/";
+} from "../../services/slices/profile";
 import styles from "./index.module.css";
 
 const Profile = () => {

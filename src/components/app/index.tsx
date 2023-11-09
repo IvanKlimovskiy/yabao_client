@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Spinner as BootstrapSpinner } from "react-bootstrap";
 import styles from "./index.module.css";
 import Header from "../header";
 import {
@@ -8,7 +9,6 @@ import {
 } from "../../services/store/index.types.ts";
 import { getMenu } from "../../services/slices/menu";
 import { getUsers } from "../../services/slices/users";
-import { Spinner as BootstrapSpinner } from "react-bootstrap";
 import Spinner from "../../spinner";
 import Footer from "../footer";
 import SignupModal from "../signup-modal";
