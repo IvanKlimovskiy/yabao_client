@@ -19,6 +19,6 @@
     "allowImportingTsExtensions": true,
     "baseUrl": "src/"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/pages/profile/index.jsx"],
   "exclude": ["node_modules"]
 }

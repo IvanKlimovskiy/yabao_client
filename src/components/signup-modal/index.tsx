@@ -27,12 +27,12 @@ const SignupModal = () => {
     dispatch(close());
   };
   const { isAuthorized } = useAppSelector((state) => state.profile);
-  const [isCodeSent, setIsCodeSent] = useState(true);
+  const [isCodeSent, setIsCodeSent] = useState(false);
   const [isCodeVerifying, setIsCodeVerifying] = useState(false);
   const [isDisabledInput, setIsDisabledInput] = useState(true);
   const [isValidationError, setIsValidationError] = useState(false);
-  const [number, setNumber] = useState("+79213531278");
-  const [code, setCode] = useState("1111");
+  const [number, setNumber] = useState("");
+  const [code, setCode] = useState("");
   const isCorrectPhoneNumber = (value: string) =>
     validator.isMobilePhone(value, "ru-RU", {
       strictMode: true,
