@@ -41,12 +41,14 @@ const SignupModal = () => {
     setIsCodeVerifying(true);
     fetchCode("/api/auth/verify", { number, code: +code }, "VERIFY_CODE")
       .then((data: AuthenticatedUserData) => {
-        const { name, img, number } = data.user;
+        const { name, img, number, email, birthdate, isActivated } = data.user;
         const { accessToken, refreshToken } = data.tokens;
         localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
         dispatch(setAccessToken(accessToken));
         dispatch(setIsAuthorized(true));
-        dispatch(setProfileData({ name, img, number }));
+        dispatch(
+          setProfileData({ name, img, number, email, birthdate, isActivated }),
+        );
         setIsCodeVerifying(false);
         setIsCodeSent(false);
         setCode("");

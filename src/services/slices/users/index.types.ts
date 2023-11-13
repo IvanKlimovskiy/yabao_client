@@ -1,16 +1,19 @@
-export interface jsonDataUsers {
-  status: string;
-  data: {
-    users: UserData[];
-  };
-}
-
 export interface UserData {
   _id: string;
   name: string;
   img: string;
   number: string;
+  email: string;
+  birthdate: string;
+  isActivated: boolean;
   refreshToken: string;
+}
+
+export interface jsonDataUsers {
+  status: string;
+  data: {
+    users: UserData[];
+  };
 }
 
 export interface UsersState {

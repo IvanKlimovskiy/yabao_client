@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import PhoneInput from "react-phone-number-input";
 import {
@@ -6,27 +6,37 @@ import {
   useAppSelector,
 } from "../../services/store/index.types.ts";
 import present from "../../images/present.jpg";
-import { generateChangerInputValue, logout } from "../../utils/index.tsx";
+import { generateChangerInputValue, logout } from "../../utils";
 import {
   setIsAuthorized,
   setIsLoggingOut,
-} from "../../services/slices/profile/index.ts";
+} from "../../services/slices/profile";
 import "react-phone-number-input/style.css";
 import styles from "./index.module.css";
 import { ProfilePageType } from "./index.types.ts";
+import Tooltip from "../../components/tooltip";
 
 const Profile: React.FC<ProfilePageType> = ({ isFixedHeader }) => {
-  const { number, name, img } = useAppSelector(
+  const { number, name, img, email, birthdate, isActivated } = useAppSelector(
     (state) => state.profile.profileData,
   );
   const [numberInputValue, setNumberInputValue] = useState(number);
   const [nameInputValue, setNameInputValue] = useState(name);
+  const [emailInputValue, setEmailInputValue] = useState(email);
+  const [birthdateInputValue, setBirthdateInputValue] = useState(birthdate);
   const [isDisabledInput, setIsDisabledInput] = useState(true);
   const [isChecked, setIsChecked] = useState(true);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const target = useRef<HTMLLabelElement>(null);
   const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     generateChangerInputValue(setNameInputValue, event.target.value);
+  };
+  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    generateChangerInputValue(setEmailInputValue, event.target.value);
+  };
+  const onChangeBirthdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    generateChangerInputValue(setBirthdateInputValue, event.target.value);
   };
   const buttonLogoutHandler = () => {
     dispatch(setIsLoggingOut(true));
@@ -97,12 +107,31 @@ const Profile: React.FC<ProfilePageType> = ({ isFixedHeader }) => {
           <input
             className={styles.input}
             disabled={isDisabledInput}
-            id={"name"}
-            name={"name"}
+            id="name"
+            name="name"
             type="text"
             value={nameInputValue}
             onChange={onChangeName}
           />
+          <label ref={target} className={styles.label} htmlFor="name">
+            Почта
+            <input
+              className={
+                isActivated
+                  ? styles.input
+                  : `${styles.input} ${styles.input_notActivated}`
+              }
+              disabled={isDisabledInput}
+              id="email"
+              name="email"
+              type="text"
+              value={emailInputValue}
+              onChange={onChangeEmail}
+            />
+            <Tooltip target={target}>
+              <span className={styles.warning}>Подтвердите Вашу почту</span>
+            </Tooltip>
+          </label>
           <label className={styles.label} htmlFor="number">
             Номер телефона
           </label>
@@ -122,7 +151,15 @@ const Profile: React.FC<ProfilePageType> = ({ isFixedHeader }) => {
           <label className={styles.label} htmlFor="date">
             Дата рождения
           </label>
-          <input className={styles.input} id="date" name="date" type="date" />
+          <input
+            onChange={onChangeBirthdate}
+            disabled={isDisabledInput}
+            className={styles.input}
+            id="date"
+            name="date"
+            type="date"
+            value={birthdateInputValue}
+          />
           <div className={styles.buttons}>
             {isDisabledInput ? (
               <button

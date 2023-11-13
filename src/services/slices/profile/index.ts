@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProfileDataType } from "./index.types.ts";
-import { fetchCurrentUser } from "../../../utils/index.tsx";
+import { fetchCurrentUser } from "../../../utils";
 import { UserData } from "../users/index.types.ts";
-import { getUsers } from "../users/index.ts";
+import { getUsers } from "../users";
 
 export const getCurrentUser = createAsyncThunk<{
   status: "success" | "failure";
@@ -26,6 +26,9 @@ const initialState = {
     name: "",
     img: "",
     number: "",
+    email: "",
+    birthdate: "",
+    isActivated: false,
   },
 };
 
@@ -44,6 +47,15 @@ const profile = createSlice({
     },
     setIsLoggingOut: (state, action: PayloadAction<boolean>) => {
       state.isLoggingOut = action.payload;
+      state.accessToken = "";
+      state.profileData = {
+        name: "",
+        img: "",
+        number: "",
+        email: "",
+        birthdate: "",
+        isActivated: false,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -61,11 +73,15 @@ const profile = createSlice({
         }>,
       ) => {
         if (action.payload.status === "success") {
-          const { name, img, number } = action.payload.user;
+          const { name, img, number, email, birthdate, isActivated } =
+            action.payload.user;
           state.profileData = {
             name,
             img,
             number,
+            email,
+            birthdate,
+            isActivated,
           };
           state.loading = false;
           state.isAuthorized = true;
