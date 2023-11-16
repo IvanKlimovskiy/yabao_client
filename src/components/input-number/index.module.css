@@ -1,0 +1,52 @@
+.label {
+  position: relative;
+  margin: 6px 0 9px;
+  color: #231f20;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.input {
+  border-radius: 8px;
+  border: 2px solid #e3ecf5;
+  background: #f3f3f7;
+  padding: 10px 20px;
+  width: 100%;
+}
+
+.inputPhone input {
+  border-radius: 8px;
+  border: 2px solid #e3ecf5;
+  background: #f3f3f7;
+  padding: 10px 20px;
+  width: 100%;
+}
+
+.inputPhone_disabled > :first-child {
+  display: none;
+}
+
+.changeInput {
+  top: 30px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #FF2E65;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  position: absolute;
+}
+
+.cancel {
+  top: 30px;
+  right: -101px;
+  background: none;
+  border: none;
+  color: #FF2E65;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  position: absolute;
+}
