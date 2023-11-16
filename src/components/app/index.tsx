@@ -14,6 +14,7 @@ import Footer from "../footer";
 import SignupModal from "../signup-modal";
 import { Profile, Main, ErrorPage } from "../../pages";
 import { getCurrentUser } from "../../services/slices/profile";
+import ProtectedRouteAuthorized from "../protected-route-authorized";
 
 const App = () => {
   const { loading, error } = useAppSelector((state) => state.menu);
@@ -67,7 +68,11 @@ const App = () => {
             />
             <Route
               path={"/profile"}
-              element={<Profile isFixedHeader={isFixedHeader} />}
+              element={
+                <ProtectedRouteAuthorized>
+                  <Profile isFixedHeader={isFixedHeader} />
+                </ProtectedRouteAuthorized>
+              }
             />
           </Routes>
           <Footer />

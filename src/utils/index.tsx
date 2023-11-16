@@ -1,5 +1,6 @@
 import React from "react";
 import { BASE_URL } from "../constants";
+import api from "../http/api.ts";
 
 export const getTokenFromLocalStorage = () => {
   const refreshToken = localStorage.getItem("refreshToken");
@@ -26,6 +27,7 @@ async function checkResponse(response: Response[] | Response) {
   return response.json();
 }
 
+export const getPizza = () => api.get("/menu/pizza");
 export const fetchMenu = async () => {
   const pizzaData = await fetch(`${BASE_URL}/menu/pizza`);
   const saladData = await fetch(`${BASE_URL}/menu/salad`);
