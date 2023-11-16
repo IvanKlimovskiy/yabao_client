@@ -17,7 +17,7 @@ import { getCurrentUser } from "../../services/slices/profile";
 
 const App = () => {
   const { loading, error } = useAppSelector((state) => state.menu);
-  const loadingProfileData = useAppSelector((state) => state.profile.loading);
+  const loadingProfileData = useAppSelector((state) => state.profile.isLoading);
   const { isLoggingOut } = useAppSelector((state) => state.profile);
   const [isFixedHeader, setIsFixedHeader] = useState(false);
   const dispatch = useAppDispatch();

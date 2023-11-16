@@ -1,6 +1,5 @@
-import { ReactElement, RefObject } from "react";
+import { ReactElement } from "react";
 
 export interface TooltipComponent {
   children: ReactElement;
-  target: RefObject<HTMLLabelElement>;
 }

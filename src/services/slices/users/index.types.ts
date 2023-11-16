@@ -1,11 +1,6 @@
-export interface UserData {
-  _id: string;
-  name: string;
-  img: string;
-  number: string;
-  email: string;
-  birthdate: string;
-  isActivated: boolean;
+import { ProfileDataType } from "../profile/index.types.ts";
+
+export interface UserData extends ProfileDataType {
   refreshToken: string;
 }
 

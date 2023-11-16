@@ -8,7 +8,7 @@ import {
 } from "../../services/store/index.types.ts";
 import { toggleCart } from "../../services/slices/cart";
 import Cart from "../cart";
-import { open } from "../../services/slices/modal";
+import { openModal } from "../../services/slices/modal";
 import { ModalType } from "../../services/slices/modal/index.types.ts";
 
 const NavMenu: FC<HeaderComponent> = ({ isFixedHeader }) => {
@@ -24,7 +24,7 @@ const NavMenu: FC<HeaderComponent> = ({ isFixedHeader }) => {
   };
 
   const signup = () => {
-    dispatch(open(ModalType.Entering));
+    dispatch(openModal(ModalType.Entering));
   };
 
   return (

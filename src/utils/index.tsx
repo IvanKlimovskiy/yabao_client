@@ -27,14 +27,14 @@ async function checkResponse(response: Response[] | Response) {
 }
 
 export const fetchMenu = async () => {
-  const pizzaData = await fetch(`${BASE_URL}/api/menu/pizza`);
-  const saladData = await fetch(`${BASE_URL}/api/menu/salad`);
-  const rollData = await fetch(`${BASE_URL}/api/menu/roll`);
-  const drinkData = await fetch(`${BASE_URL}/api/menu/drink`);
+  const pizzaData = await fetch(`${BASE_URL}/menu/pizza`);
+  const saladData = await fetch(`${BASE_URL}/menu/salad`);
+  const rollData = await fetch(`${BASE_URL}/menu/roll`);
+  const drinkData = await fetch(`${BASE_URL}/menu/drink`);
   return checkResponse([pizzaData, saladData, rollData, drinkData]);
 };
 export const fetchUsers = async () => {
-  const usersData = await fetch(`${BASE_URL}/api/users`);
+  const usersData = await fetch(`${BASE_URL}/users`);
   return checkResponse(usersData);
 };
 export const fetchCode = async (
@@ -62,7 +62,7 @@ export const fetchCode = async (
   return checkResponse(data);
 };
 export const fetchCurrentUser = async () => {
-  const res = await fetch(`${BASE_URL}/api/users/me`, {
+  const res = await fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
       authorization: getTokenFromLocalStorage(),
@@ -71,14 +71,16 @@ export const fetchCurrentUser = async () => {
   });
   return checkResponse(res);
 };
-export const generateChangerInputValue = (
-  setStateAction: React.Dispatch<React.SetStateAction<string>>,
-  value: string,
-) => {
+
+export function generateChangerInputValue<T>(
+  setStateAction: React.Dispatch<React.SetStateAction<T>>,
+  value: T,
+) {
   setStateAction(value);
-};
+}
+
 export const logout = async () => {
-  const response = await fetch(`${BASE_URL}/api/auth/logout`, {
+  const response = await fetch(`${BASE_URL}/auth/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

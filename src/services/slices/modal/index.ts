@@ -12,11 +12,11 @@ const modal = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    open: (state, action: PayloadAction<ModalType>) => {
+    openModal: (state, action: PayloadAction<ModalType>) => {
       state.isOpenedModal = true;
       state.type = action.payload;
     },
-    close: (state) => {
+    closeModal: (state) => {
       state.type = null;
       state.isOpenedModal = false;
     },
@@ -30,5 +30,6 @@ const modal = createSlice({
 });
 
 const { actions, reducer } = modal;
-export const { open, close, setModalDetails, removeModalDetails } = actions;
+export const { openModal, closeModal, setModalDetails, removeModalDetails } =
+  actions;
 export default reducer;

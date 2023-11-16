@@ -10,7 +10,7 @@ import {
   useAppSelector,
 } from "../../services/store/index.types.ts";
 import { ModalType } from "../../services/slices/modal/index.types.ts";
-import { close } from "../../services/slices/modal";
+import { closeModal } from "../../services/slices/modal";
 import { fetchCode, generateChangerInputValue } from "../../utils";
 import {
   setAccessToken,
@@ -23,8 +23,8 @@ const SignupModal = () => {
   const { isOpenedModal, type } = useAppSelector((state) => state.modal);
   const codeInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
-  const closeModal = () => {
-    dispatch(close());
+  const closeSignupModal = () => {
+    dispatch(closeModal());
   };
   const { isAuthorized } = useAppSelector((state) => state.profile);
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -39,21 +39,30 @@ const SignupModal = () => {
     });
   const codeHandler = (code: number) => {
     setIsCodeVerifying(true);
-    fetchCode("/api/auth/verify", { number, code: +code }, "VERIFY_CODE")
+    fetchCode("/auth/verify", { number, code: +code }, "VERIFY_CODE")
       .then((data: AuthenticatedUserData) => {
-        const { name, img, number, email, birthdate, isActivated } = data.user;
+        const { _id, name, img, number, email, birthdate, isActivated } =
+          data.user;
         const { accessToken, refreshToken } = data.tokens;
         localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
         dispatch(setAccessToken(accessToken));
         dispatch(setIsAuthorized(true));
         dispatch(
-          setProfileData({ name, img, number, email, birthdate, isActivated }),
+          setProfileData({
+            _id,
+            name,
+            img,
+            number,
+            email,
+            birthdate,
+            isActivated,
+          }),
         );
         setIsCodeVerifying(false);
         setIsCodeSent(false);
         setCode("");
         setNumber("");
-        closeModal();
+        closeSignupModal();
       })
       .catch((error: { statusCode: string; message: string }) => {
         console.log(`${error.message}. ${error.statusCode}`);
@@ -61,7 +70,7 @@ const SignupModal = () => {
   };
   const requestCode = () => {
     setIsCodeSent(true);
-    fetchCode("/api/auth/login", { number }, "GET_CODE").then(
+    fetchCode("/auth/login", { number }, "GET_CODE").then(
       (data: ResponseCodeType) => {
         if (codeInputRef.current) {
           codeInputRef.current.value = `${data.code}`;
@@ -225,7 +234,7 @@ const SignupModal = () => {
   return (
     <Modal
       size="lg"
-      onHide={closeModal}
+      onHide={closeSignupModal}
       show={isOpenedModal && type === ModalType.Entering}
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -236,7 +245,7 @@ const SignupModal = () => {
       }
     >
       <CloseButton
-        onClick={closeModal}
+        onClick={closeSignupModal}
         variant="white"
         className={styles.closeButton}
       />

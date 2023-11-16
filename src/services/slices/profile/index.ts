@@ -16,13 +16,14 @@ export const getCurrentUser = createAsyncThunk<{
 });
 
 const initialState = {
-  loading: false,
+  isLoading: false,
   profileRequest: false,
   profileFailed: false,
   accessToken: "",
   isLoggingOut: false,
   isAuthorized: false,
   profileData: {
+    _id: "",
     name: "",
     img: "",
     number: "",
@@ -36,6 +37,9 @@ const profile = createSlice({
   name: "profile",
   initialState,
   reducers: {
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
     },
@@ -43,12 +47,15 @@ const profile = createSlice({
       state.isAuthorized = action.payload;
     },
     setProfileData: (state, action: PayloadAction<ProfileDataType>) => {
+      state.isLoading = true;
       state.profileData = action.payload;
+      state.isLoading = false;
     },
     setIsLoggingOut: (state, action: PayloadAction<boolean>) => {
       state.isLoggingOut = action.payload;
       state.accessToken = "";
       state.profileData = {
+        _id: "",
         name: "",
         img: "",
         number: "",
@@ -60,7 +67,7 @@ const profile = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getCurrentUser.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
       state.profileRequest = true;
     });
     builder.addCase(
@@ -73,9 +80,10 @@ const profile = createSlice({
         }>,
       ) => {
         if (action.payload.status === "success") {
-          const { name, img, number, email, birthdate, isActivated } =
+          const { _id, name, img, number, email, birthdate, isActivated } =
             action.payload.user;
           state.profileData = {
+            _id,
             name,
             img,
             number,
@@ -83,15 +91,15 @@ const profile = createSlice({
             birthdate,
             isActivated,
           };
-          state.loading = false;
+          state.isLoading = false;
           state.isAuthorized = true;
         } else {
-          state.loading = false;
+          state.isLoading = false;
         }
       },
     );
     builder.addCase(getUsers.rejected, (state) => {
-      state.loading = false;
+      state.isLoading = false;
       state.profileFailed = true;
       state.profileRequest = false;
     });
@@ -105,5 +113,6 @@ export const {
   setIsAuthorized,
   setProfileData,
   setIsLoggingOut,
+  setIsLoading,
 } = actions;
 export default reducer;

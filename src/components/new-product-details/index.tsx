@@ -4,7 +4,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../services/store/index.types";
-import { close, removeModalDetails } from "../../services/slices/modal";
+import { closeModal, removeModalDetails } from "../../services/slices/modal";
 import styles from "./index.module.css";
 import { ModalType } from "../../services/slices/modal/index.types";
 
@@ -13,15 +13,15 @@ const NewProductDetails = () => {
   const { isOpenedModal, modalDetails, type } = useAppSelector(
     (state) => state.modal,
   );
-  const closeModal = () => {
-    dispatch(close());
+  const closeProductModal = () => {
+    dispatch(closeModal());
     dispatch(removeModalDetails());
   };
 
   return (
     modalDetails && (
       <Modal
-        onHide={closeModal}
+        onHide={closeProductModal}
         show={isOpenedModal && type === ModalType.ProductDetails}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
@@ -37,7 +37,7 @@ const NewProductDetails = () => {
           <p className={styles.description}>{modalDetails.description}</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button className={styles.button} onClick={closeModal}>
+          <Button className={styles.button} onClick={closeProductModal}>
             Закрыть
           </Button>
         </Modal.Footer>
