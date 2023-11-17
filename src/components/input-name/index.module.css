@@ -15,16 +15,27 @@
   width: 100%;
 }
 
+.spinner {
+  top: 33px;
+  right: -22px;
+  position: absolute;
+}
+
 .changeInput {
   top: 30px;
   right: 20px;
   background: none;
   border: none;
-  color: #FF2E65;
+  color: #ff2e65;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
   position: absolute;
+}
+
+.changeInput_disabled {
+  color: #9d9d9b;
+  opacity: 0.8;
 }
 
 .cancel {
@@ -32,7 +43,7 @@
   right: -101px;
   background: none;
   border: none;
-  color: #FF2E65;
+  color: #ff2e65;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;

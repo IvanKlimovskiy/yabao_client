@@ -1,18 +1,15 @@
-import React, { useRef, useState } from "react";
-import { Spinner } from "react-bootstrap";
-import styles from "./index.module.css";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../services/store/index.types.ts";
-import { setIsLoading, setProfileData } from "../../services/slices/profile";
-import api from "../../http/api.ts";
-import { ProfileDataType } from "../../services/slices/profile/index.types.ts";
+import React, { useRef, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../services/store/index.types.ts';
+import { ProfileDataType } from '../../services/slices/profile/index.types.ts';
+import { Spinner } from 'react-bootstrap';
+import styles from './index.module.css';
+import { setProfileData } from '../../services/slices/profile';
+import api from '../../http/api.ts';
 
 const InputName = () => {
   const dispatch = useAppDispatch();
   const { _id, name } = useAppSelector((state) => state.profile.profileData);
-  const { isLoading } = useAppSelector((state) => state.profile);
+  const [isChangingName, setIsChangingName] = useState(false);
   const [nameInput, setNameInput] = useState(name);
   const [isDisabled, setIsDisabled] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -21,19 +18,16 @@ const InputName = () => {
   };
   const changeInputHandler = () => {
     if (!isDisabled) {
-      dispatch(setIsLoading(true));
+      setIsChangingName(true);
       api
-        .patch<{ status: string; user: ProfileDataType }>(
-          `/users/${_id}/name`,
-          { name: nameInput },
-        )
+        .patch<{ status: string; user: ProfileDataType }>(`/users/${_id}/name`, { name: nameInput })
         .then((response) => {
           const { user } = response.data;
           dispatch(setProfileData(user));
         })
         .catch((err) => console.log(err))
         .finally(() => {
-          dispatch(setIsLoading(false));
+          setIsChangingName(false);
         });
       setIsDisabled(true);
     } else {
@@ -51,7 +45,7 @@ const InputName = () => {
       <input
         ref={inputRef}
         className={styles.input}
-        disabled={isDisabled || isLoading}
+        disabled={isDisabled || isChangingName}
         id="name"
         name="name"
         type="text"
@@ -59,11 +53,11 @@ const InputName = () => {
         onChange={onChangeName}
       />
       <button
-        className={styles.changeInput}
+        disabled={isChangingName}
+        className={isChangingName ? `${styles.changeInput} ${styles.changeInput_disabled}` : styles.changeInput}
         onClick={changeInputHandler}
-        type="button"
-      >
-        {isDisabled ? "Изменить" : "Сохранить"}
+        type="button">
+        {isDisabled && !isChangingName ? 'Изменить' : isChangingName ? 'Сохранение...' : 'Сохранить'}
       </button>
       {isDisabled ? null : (
         <button
@@ -72,12 +66,15 @@ const InputName = () => {
             setIsDisabled(true);
           }}
           type="button"
-          className={styles.cancel}
-        >
+          className={styles.cancel}>
           Отменить
         </button>
       )}
-      {isLoading ? <Spinner size="sm" /> : null}
+      {isChangingName ? (
+        <div className={styles.spinner}>
+          <Spinner size="sm" />
+        </div>
+      ) : null}
     </label>
   );
 };

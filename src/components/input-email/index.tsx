@@ -16,6 +16,7 @@ const InputEmail = () => {
     (state) => state.profile.profileData,
   );
   const { isLoading } = useAppSelector((state) => state.profile);
+  const [isChangingEmail, setIsChangingEmail] = useState(false);
   const [emailInput, setEmailInput] = useState(email);
   const [isDisabled, setIsDisabled] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -53,7 +54,7 @@ const InputEmail = () => {
       Почта
       <input
         ref={inputRef}
-        disabled={isDisabled || isLoading}
+        disabled={isDisabled || (isLoading && isChangingEmail)}
         className={
           isActivated
             ? styles.input
@@ -92,7 +93,7 @@ const InputEmail = () => {
           Отменить
         </button>
       )}
-      {isLoading ? <Spinner size="sm" /> : null}
+      {isLoading && isChangingEmail ? <Spinner size="sm" /> : null}
       {!isActivated ? (
         <Tooltip>
           <span onClick={verifyEmail} className={styles.warning}>

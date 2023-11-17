@@ -18,9 +18,9 @@ import ProtectedRouteAuthorized from "../protected-route-authorized";
 
 const App = () => {
   const { loading, error } = useAppSelector((state) => state.menu);
-  const loadingProfileData = useAppSelector((state) => state.profile.isLoading);
-  const { isLoggingOut } = useAppSelector((state) => state.profile);
+  const { isLoggingOut, isLoading } = useAppSelector((state) => state.profile);
   const [isFixedHeader, setIsFixedHeader] = useState(false);
+  const [isLoadingApp, setIsLoadingApp] = useState(true);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -43,7 +43,13 @@ const App = () => {
     };
   }, []);
 
-  if (loading || loadingProfileData) {
+  useEffect(() => {
+    if (!isLoading) {
+      setIsLoadingApp(false);
+    }
+  }, [isLoading]);
+
+  if (loading || (isLoading && isLoadingApp)) {
     return <Spinner height={"100vh"} />;
   }
   if (error) return <ErrorPage />;
