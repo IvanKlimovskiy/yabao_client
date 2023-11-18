@@ -1,22 +1,15 @@
-import React, { useRef, useState } from "react";
-import { Spinner } from "react-bootstrap";
-import styles from "./index.module.css";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../services/store/index.types.ts";
-import api from "../../http/api.ts";
-import Tooltip from "../tooltip";
-import { ModalType } from "../../services/slices/modal/index.types.ts";
-import { closeModal, openModal } from "../../services/slices/modal";
+import React, { useRef, useState } from 'react';
+import styles from './index.module.css';
+import { useAppDispatch, useAppSelector } from '../../services/store/index.types.ts';
+import Tooltip from '../tooltip';
+import { ModalType } from '../../services/slices/modal/index.types.ts';
+import { openModal } from '../../services/slices/modal';
+import { setProfileData } from 'services/slices/profile/index.ts';
 
 const InputEmail = () => {
   const dispatch = useAppDispatch();
-  const { email, isActivated, number } = useAppSelector(
-    (state) => state.profile.profileData,
-  );
-  const { isLoading } = useAppSelector((state) => state.profile);
-  const [isChangingEmail, setIsChangingEmail] = useState(false);
+  const { email, isActivated } = useAppSelector((state) => state.profile.profileData);
+  const profileData = useAppSelector((state) => state.profile.profileData);
   const [emailInput, setEmailInput] = useState(email);
   const [isDisabled, setIsDisabled] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -26,6 +19,7 @@ const InputEmail = () => {
   const changeInput = () => {
     if (!isDisabled) {
       setIsDisabled(true);
+      dispatch(setProfileData({ ...profileData, email: emailInput }));
     } else {
       setIsDisabled(false);
       setTimeout(() => {
@@ -36,47 +30,32 @@ const InputEmail = () => {
     }
   };
   const verifyEmail = () => {
-    if (emailInput === "example@email.com") {
+    if (emailInput === 'example@email.com') {
       return dispatch(openModal(ModalType.Error));
     }
     dispatch(openModal(ModalType.Accept));
-    return api
-      .post("/auth/activate/email", {
-        email: emailInput,
-        number,
-      })
-      .then(() => {
-        dispatch(closeModal());
-      });
   };
   return (
     <label className={styles.label} htmlFor="email">
       Почта
       <input
         ref={inputRef}
-        disabled={isDisabled || (isLoading && isChangingEmail)}
-        className={
-          isActivated
-            ? styles.input
-            : `${styles.input} ${styles.input_notActivated}`
-        }
+        disabled={isDisabled}
+        className={isActivated ? styles.input : `${styles.input} ${styles.input_notActivated}`}
         id="email"
         name="email"
         type="text"
         value={emailInput}
         onChange={onChangeEmail}
       />
-      <button
-        className={
-          isActivated
-            ? styles.changeInput
-            : `${styles.changeInput} ${styles.changeInput_type_email}`
-        }
-        onClick={changeInput}
-        type="button"
-      >
-        {isDisabled ? "Изменить" : "Сохранить"}
-      </button>
+      {!isActivated ? (
+        <button
+          className={isActivated ? styles.changeInput : `${styles.changeInput} ${styles.changeInput_type_email}`}
+          onClick={changeInput}
+          type="button">
+          {isDisabled ? 'Изменить' : 'Сохранить'}
+        </button>
+      ) : null}
       {isDisabled ? null : (
         <button
           onClick={() => {
@@ -84,16 +63,10 @@ const InputEmail = () => {
             setIsDisabled(true);
           }}
           type="button"
-          className={
-            !isActivated
-              ? `${styles.cancel} ${styles.cancel_type_email}`
-              : styles.cancel
-          }
-        >
+          className={!isActivated ? `${styles.cancel} ${styles.cancel_type_email}` : styles.cancel}>
           Отменить
         </button>
       )}
-      {isLoading && isChangingEmail ? <Spinner size="sm" /> : null}
       {!isActivated ? (
         <Tooltip>
           <span onClick={verifyEmail} className={styles.warning}>

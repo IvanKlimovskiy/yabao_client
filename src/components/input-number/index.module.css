@@ -28,6 +28,7 @@
 }
 
 .changeInput {
+  display: none;
   top: 30px;
   right: 20px;
   background: none;
