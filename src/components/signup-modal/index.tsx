@@ -1,23 +1,16 @@
-import React, { useRef, useState } from "react";
-import { Spinner } from "react-bootstrap";
-import validator from "validator";
-import Modal from "react-bootstrap/Modal";
-import CloseButton from "react-bootstrap/CloseButton";
-import err from "../../images/validation.svg";
-import styles from "./index.module.css";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../services/store/index.types.ts";
-import { ModalType } from "../../services/slices/modal/index.types.ts";
-import { closeModal } from "../../services/slices/modal";
-import { fetchCode, generateChangerInputValue } from "../../utils";
-import {
-  setAccessToken,
-  setIsAuthorized,
-  setProfileData,
-} from "../../services/slices/profile";
-import { AuthenticatedUserData, ResponseCodeType } from "./index.types.ts";
+import React, { useRef, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
+import validator from 'validator';
+import Modal from 'react-bootstrap/Modal';
+import CloseButton from 'react-bootstrap/CloseButton';
+import err from '../../images/validation.svg';
+import styles from './index.module.css';
+import { useAppDispatch, useAppSelector } from '../../services/store/index.types.ts';
+import { ModalType } from '../../services/slices/modal/index.types.ts';
+import { closeModal } from '../../services/slices/modal';
+import { fetchCode, generateChangerInputValue } from '../../utils';
+import { setAccessToken, setIsAuthorized, setProfileData } from '../../services/slices/profile';
+import { AuthenticatedUserData, ResponseCodeType } from './index.types.ts';
 
 const SignupModal = () => {
   const { isOpenedModal, type } = useAppSelector((state) => state.modal);
@@ -31,37 +24,25 @@ const SignupModal = () => {
   const [isCodeVerifying, setIsCodeVerifying] = useState(false);
   const [isDisabledInput, setIsDisabledInput] = useState(true);
   const [isValidationError, setIsValidationError] = useState(false);
-  const [number, setNumber] = useState("");
-  const [code, setCode] = useState("");
+  const [number, setNumber] = useState('');
+  const [code, setCode] = useState('');
   const isCorrectPhoneNumber = (value: string) =>
-    validator.isMobilePhone(value, "ru-RU", {
+    validator.isMobilePhone(value, 'ru-RU', {
       strictMode: true,
     });
   const codeHandler = (code: number) => {
     setIsCodeVerifying(true);
-    fetchCode("/auth/verify", { number, code: +code }, "VERIFY_CODE")
+    fetchCode('/auth/verify', { number, code: +code }, 'VERIFY_CODE')
       .then((data: AuthenticatedUserData) => {
-        const { _id, name, img, number, email, birthdate, isActivated } =
-          data.user;
         const { accessToken, refreshToken } = data.tokens;
-        localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
+        localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
         dispatch(setAccessToken(accessToken));
         dispatch(setIsAuthorized(true));
-        dispatch(
-          setProfileData({
-            _id,
-            name,
-            img,
-            number,
-            email,
-            birthdate,
-            isActivated,
-          }),
-        );
+        dispatch(setProfileData(data.user));
         setIsCodeVerifying(false);
         setIsCodeSent(false);
-        setCode("");
-        setNumber("");
+        setCode('');
+        setNumber('');
         closeSignupModal();
       })
       .catch((error: { statusCode: string; message: string }) => {
@@ -70,18 +51,16 @@ const SignupModal = () => {
   };
   const requestCode = () => {
     setIsCodeSent(true);
-    fetchCode("/auth/login", { number }, "GET_CODE").then(
-      (data: ResponseCodeType) => {
-        if (codeInputRef.current) {
-          codeInputRef.current.value = `${data.code}`;
-          const newCode = `${data.code}`;
-          setCode(`${data.code}`);
-          if (newCode.length === 4) {
-            codeHandler(+newCode);
-          }
+    fetchCode('/auth/login', { number }, 'GET_CODE').then((data: ResponseCodeType) => {
+      if (codeInputRef.current) {
+        codeInputRef.current.value = `${data.code}`;
+        const newCode = `${data.code}`;
+        setCode(`${data.code}`);
+        if (newCode.length === 4) {
+          codeHandler(+newCode);
         }
-      },
-    );
+      }
+    });
   };
   const handleClick = () => {
     if (isCorrectPhoneNumber(number)) {
@@ -92,9 +71,7 @@ const SignupModal = () => {
   };
   const changeInputNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newNumber = event.target.value;
-    isCorrectPhoneNumber(newNumber)
-      ? setIsValidationError(false)
-      : setIsValidationError(true);
+    isCorrectPhoneNumber(newNumber) ? setIsValidationError(false) : setIsValidationError(true);
     generateChangerInputValue(setNumber, newNumber);
     newNumber.length === 0 ? setIsValidationError(false) : null;
   };
@@ -112,7 +89,7 @@ const SignupModal = () => {
           Номер телефона
         </label>
         <input
-          placeholder={"+7 (123) 456-78-90"}
+          placeholder={'+7 (123) 456-78-90'}
           onChange={changeInputNumber}
           value={number}
           className={styles.input}
@@ -121,12 +98,7 @@ const SignupModal = () => {
           type="text"
         />
         <div
-          className={
-            isValidationError
-              ? `${styles.validationError} ${styles.validationError_visible}`
-              : styles.validationError
-          }
-        >
+          className={isValidationError ? `${styles.validationError} ${styles.validationError_visible}` : styles.validationError}>
           <img src={err} alt="!" />
           <span>Неверный номер</span>
         </div>
@@ -136,11 +108,7 @@ const SignupModal = () => {
           Выслать код
         </button>
         <p className={styles.text}>
-          Продолжая, вы соглашаетесь{" "}
-          <a href="">
-            со сбором и обработкой персональных данных и пользовательским
-            соглашением
-          </a>
+          Продолжая, вы соглашаетесь <a href="">со сбором и обработкой персональных данных и пользовательским соглашением</a>
         </p>
       </div>
     </>
@@ -148,21 +116,14 @@ const SignupModal = () => {
   const sentCodeModalView = (
     <>
       <form className={`${styles.form} ${styles.form_sentCode}`}>
-        <label
-          className={`${styles.label} ${styles.label_sentCode}`}
-          htmlFor="phone"
-        >
+        <label className={`${styles.label} ${styles.label_sentCode}`} htmlFor="phone">
           Номер телефона
         </label>
         <input
           disabled={isDisabledInput}
           onChange={changeInputNumber}
           value={number}
-          className={
-            isDisabledInput
-              ? `${styles.input} ${styles.input_disabled}`
-              : `${styles.input} ${styles.input_codeSent}`
-          }
+          className={isDisabledInput ? `${styles.input} ${styles.input_disabled}` : `${styles.input} ${styles.input_codeSent}`}
           id="phone"
           name="phone"
           type="text"
@@ -178,22 +139,14 @@ const SignupModal = () => {
               setIsValidationError(true);
             }
           }}
-          className={styles.changeNumberButton}
-        >
-          {isDisabledInput ? "Изменить" : "Принять"}
+          className={styles.changeNumberButton}>
+          {isDisabledInput ? 'Изменить' : 'Принять'}
         </button>
       </form>
-      <form
-        className={`${styles.form} ${styles.form_sentCode} ${styles.form_code}`}
-      >
-        <label
-          className={`${styles.label} ${styles.label_code}`}
-          htmlFor="code"
-        >
+      <form className={`${styles.form} ${styles.form_sentCode} ${styles.form_code}`}>
+        <label className={`${styles.label} ${styles.label_code}`} htmlFor="code">
           Код из СМС
-          {isCodeVerifying ? (
-            <Spinner className={styles.spinner} size="sm" />
-          ) : null}
+          {isCodeVerifying ? <Spinner className={styles.spinner} size="sm" /> : null}
         </label>
         <input
           ref={codeInputRef}
@@ -214,17 +167,11 @@ const SignupModal = () => {
             isValidationError
               ? `${styles.validationError} ${styles.validationError_visible} ${styles.validationError_secondModal}`
               : `${styles.validationError} ${styles.validationError_secondModal}`
-          }
-        >
+          }>
           <img src={err} alt="!" />
           <span>Неверный номер</span>
         </div>
-        <button
-          type="button"
-          onClick={handleClick}
-          disabled={isCodeVerifying}
-          className={styles.changeNumberButton}
-        >
+        <button type="button" onClick={handleClick} disabled={isCodeVerifying} className={styles.changeNumberButton}>
           Получить новый код
         </button>
       </form>
@@ -238,17 +185,8 @@ const SignupModal = () => {
       show={isOpenedModal && type === ModalType.Entering}
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      contentClassName={
-        isCodeSent && !isAuthorized
-          ? styles.container_sentCode
-          : styles.container
-      }
-    >
-      <CloseButton
-        onClick={closeSignupModal}
-        variant="white"
-        className={styles.closeButton}
-      />
+      contentClassName={isCodeSent && !isAuthorized ? styles.container_sentCode : styles.container}>
+      <CloseButton onClick={closeSignupModal} variant="white" className={styles.closeButton} />
       <Modal.Title className={styles.title}>Вход на сайт</Modal.Title>
       <Modal.Body className={styles.body}>{modalView}</Modal.Body>
     </Modal>

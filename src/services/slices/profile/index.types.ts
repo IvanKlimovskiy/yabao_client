@@ -6,4 +6,5 @@ export interface ProfileDataType {
   email: string;
   birthdate: string;
   isActivated: boolean;
+  isSubscribed: boolean;
 }
