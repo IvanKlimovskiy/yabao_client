@@ -8,3 +8,13 @@ export interface ProfileDataType {
   isActivated: boolean;
   isSubscribed: boolean;
 }
+
+export interface ProfileState {
+  isLoading: boolean;
+  profileRequest: boolean;
+  profileFailed: boolean;
+  accessToken: string | null;
+  isLoggingOut: boolean;
+  isAuthorized: boolean;
+  profileData: ProfileDataType;
+}

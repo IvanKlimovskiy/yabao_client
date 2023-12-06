@@ -1,5 +1,5 @@
-import { CartElement } from "../../services/slices/cart/index.types";
+import { CartElement } from '../../services/slices/cart/index.types';
 
-export interface CartElementComponent {
+export interface CartElementProps {
   element: CartElement;
 }

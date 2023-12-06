@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ProfileDataType } from './index.types.ts';
+import { ProfileDataType, ProfileState } from './index.types.ts';
 import { fetchCurrentUser } from '../../../utils';
 import { UserData } from '../users/index.types.ts';
 import { getUsers } from '../users';
@@ -15,11 +15,11 @@ export const getCurrentUser = createAsyncThunk<{
   throw new Error();
 });
 
-const initialState = {
+const initialState: ProfileState = {
   isLoading: false,
   profileRequest: false,
   profileFailed: false,
-  accessToken: '',
+  accessToken: null,
   isLoggingOut: false,
   isAuthorized: false,
   profileData: {
